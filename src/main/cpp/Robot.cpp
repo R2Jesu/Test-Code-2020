@@ -5,13 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+#include <frc/Joystick.h>
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/smartdashboard.h>
 #include <frc/util/color.h>
 #include <frc/NidecBrushless.h>
 #include "rev/ColorSensorV3.h"
 #include "rev/ColorMatch.h"
-
+frc::Joystick m_stick{0};
+double globalCount=0;
 /**
  * This is a simple example to show how the REV Color Sensor V3 can be used to
  * detect various colors.
@@ -52,21 +54,35 @@ class Robot : public frc::TimedRobot {
 
  public:
   void RobotInit() {
+    System.out.println()
     m_colorMatcher.AddColorMatch(kBlueTarget);
     m_colorMatcher.AddColorMatch(kGreenTarget);
     m_colorMatcher.AddColorMatch(kRedTarget);
     m_colorMatcher.AddColorMatch(kYellowTarget);
-    m_colorMatcher.AddColorMatch(Ball);
+    m_colorMatcher.AddColorMatch(Ball);  
+    
   }
   void RobotPeriodic() {
     
   }
   void TeleopInit() {
-//run motor until green is seen twice
+    frc::SmartDashboard::PutString("Stage","Init");
+    motor.Enable();
+
+  }
+
+  void TeleopPeriodic() {
+    globalCount++;
+    frc::SmartDashboard::PutString("Stage","Periodic");
+    frc::SmartDashboard::PutNumber("Periodic Count", globalCount);
+    if (m_stick.GetRawButton(7)){
+      //run motor until green is seen 9 times
     int colorCount = 0;
     int colorCount2; 
+  
     NidecValue=.25;
        motor.Set(NidecValue);
+      
       frc::Color detectedColor = m_colorSensor.GetColor();
 
     /**
@@ -76,6 +92,7 @@ class Robot : public frc::TimedRobot {
     double confidence = 0.0;
     frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);  
     frc::Color startingColor = matchedColor;
+  
      while (colorCount < 9) {
       
         /**
@@ -148,7 +165,7 @@ class Robot : public frc::TimedRobot {
       colorString = "Blue";
     } else if (matchedColor == kRedTarget) {
       colorString = "Red";
-    } else if (matchedColor == kGreenTarget) {
+    } else if (matchedColor == kGreenTarget) {\
       colorString = "Green";
     } else if (matchedColor == kYellowTarget) {
       colorString = "Yellow";
@@ -182,11 +199,7 @@ class Robot : public frc::TimedRobot {
        motor.Set(NidecValue);
        //NidecValue=.25;
        //motor.Set(NidecValue);
-
-
-  }
-
-  void TeleopPeriodic() {
+    }
 
 
 
@@ -194,11 +207,11 @@ class Robot : public frc::TimedRobot {
   }
 
   void TeleopDisable() {
-
        motor.Disable(); 
 
     }
   
+ 
 };
 
 #ifndef RUNNING_FRC_TESTS

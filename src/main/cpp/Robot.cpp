@@ -10,6 +10,7 @@
 #include <frc/smartdashboard/smartdashboard.h>
 #include <frc/util/color.h>
 #include <frc/NidecBrushless.h>
+#include <frc/DriverStation.h>
 #include "rev/ColorSensorV3.h"
 #include "rev/ColorMatch.h"
 frc::Joystick m_stick{0};
@@ -72,6 +73,31 @@ class Robot : public frc::TimedRobot {
   }
 
   void TeleopPeriodic() {
+    std::string gameData;
+    gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
+    if(gameData.length() > 0)
+{
+  switch (gameData[0])
+  {
+    case 'B' :
+      
+      break;
+    case 'G' :
+      
+      break;
+    case 'R' :
+      
+      break;
+    case 'Y' :
+      
+      break;
+    default :
+    
+      break;
+  }
+} else {
+  //Code for no data received yet
+}
     globalCount++;
     frc::SmartDashboard::PutString("Stage","Periodic");
     frc::SmartDashboard::PutNumber("Periodic Count", globalCount);

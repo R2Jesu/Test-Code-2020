@@ -16,6 +16,8 @@
 frc::Joystick m_stick{0};
 frc::Joystick driverTwoJoystick{1};
 double globalCount=0;
+std::string gameData;
+
 /**
  * This is a simple example to show how the REV Color Sensor V3 can be used to
  * detect various colors.
@@ -53,7 +55,9 @@ class Robot : public frc::TimedRobot {
   static constexpr frc::Color kRedTarget = frc::Color(0.52, 0.35, 0.13);
   static constexpr frc::Color kYellowTarget = frc::Color(0.31, 0.56, 0.12);
   static constexpr frc::Color Ball = frc::Color(0.328, .577, .093);
+  static constexpr frc::Color nun = frc::Color(0,0,0);
 
+  frc::Color gameColor = nun;
  public:
   void RobotInit() {
     m_colorMatcher.AddColorMatch(kBlueTarget);
@@ -67,36 +71,34 @@ class Robot : public frc::TimedRobot {
     
   }
   void TeleopInit() {
+    gameColor = nun;
     frc::SmartDashboard::PutString("Stage","Init");
     motor.Enable();
 
   }
 
   void TeleopPeriodic() {
-    std::string gameData;
     gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
-    if(gameData.length() > 0)
+    if((gameData.length() > 0) && (gameColor == nun))
 {
   switch (gameData[0])
   {
     case 'B' :
-      
+      gameColor = kRedTarget;
       break;
     case 'G' :
-      
+      gameColor = kYellowTarget;
       break;
     case 'R' :
-      
+      gameColor = kBlueTarget;
       break;
     case 'Y' :
-      
+      gameColor = kGreenTarget;
       break;
     default :
-    
+      gameColor = Ball;
       break;
   }
-} else {
-  //Code for no data received yet
 }
     globalCount++;
     frc::SmartDashboard::PutString("Stage","Periodic");
@@ -227,8 +229,8 @@ class Robot : public frc::TimedRobot {
        //motor.Set(NidecValue);
     }
 
- // set the wheel to red
-    if (driverTwoJoystick.GetRawButton(2)){
+ // set the wheel to the color sent over the drive station
+    if (driverTwoJoystick.GetRawButton(2)){ //red button
       //run motor until green is seen twice
  
         /**
@@ -280,7 +282,7 @@ class Robot : public frc::TimedRobot {
     frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
     frc::SmartDashboard::PutNumber("Confidence", confidence);
     frc::SmartDashboard::PutString("Detected Color", colorString);
-    if (matchedColor == kBlueTarget){
+    if (matchedColor == gameColor){
       colorCounter++;
     }
     }
@@ -292,192 +294,7 @@ class Robot : public frc::TimedRobot {
 
     }
 
-//sets the wheel to green
-    if (driverTwoJoystick.GetRawButton(1)){
-      //run motor until green is seen twice
- 
-        /**
-     * The method GetColor() returns a normalized color value from the sensor and can be
-     * useful if outputting the color to an RGB LED or similar. To
-     * read the raw color, use GetRawColor().
-     * 
-     * The color sensor works best when within a few inches from an object in
-     * well lit conditions (the built in LED is a big help here!). The farther
-     * an object is the more light from the surroundings will bleed into the 
-     * measurements and make it difficult to accurately determine its color.
-     */
-    int colorCounter = 0;
-    NidecValue = .25;
-    motor.Set(NidecValue);
-    while (colorCounter < 1){
-    frc::Color detectedColor = m_colorSensor.GetColor();
 
-    /**
-     * Run the color match algorithm on our detected color
-     */
-    std::string colorString;
-    double confidence = 0.0;
-    frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
-
-    if (matchedColor == kBlueTarget) {
-      colorString = "Blue";
-    } else if (matchedColor == kRedTarget) {
-      colorString = "Red";
-    } else if (matchedColor == kGreenTarget) {
-      colorString = "Green";
-    } else if (matchedColor == kYellowTarget) {
-      colorString = "Yellow";
-    } else if (matchedColor == Ball) {
-      colorString = "Ball";
-    } else {
-      colorString = "Unknown";
-    }
-
-
-
-
-    /**
-     * Open Smart Dashboard or Shuffleboard to see the color detected by the 
-     * sensor.
-     */
-    frc::SmartDashboard::PutNumber("Red", detectedColor.red);
-    frc::SmartDashboard::PutNumber("Green", detectedColor.green);
-    frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
-    frc::SmartDashboard::PutNumber("Confidence", confidence);
-    frc::SmartDashboard::PutString("Detected Color", colorString);
-    if (matchedColor == kYellowTarget){
-      colorCounter++;
-    }
-    }
-     
-       //NidecValue=.25;
-       //motor.Set(NidecValue);
-    NidecValue = 0;
-    motor.Set(NidecValue);
-
-    }
-
-//sets the wheel to yellow
-    if(driverTwoJoystick.GetRawButton(4)){
-      //run motor until green is seen twice
- 
-        /**
-     * The method GetColor() returns a normalized color value from the sensor and can be
-     * useful if outputting the color to an RGB LED or similar. To
-     * read the raw color, use GetRawColor().
-     * 
-     * The color sensor works best when within a few inches from an object in
-     * well lit conditions (the built in LED is a big help here!). The farther
-     * an object is the more light from the surroundings will bleed into the 
-     * measurements and make it difficult to accurately determine its color.
-     */
-    int colorCounter = 0;
-    NidecValue = .25;
-    motor.Set(NidecValue);
-    while (colorCounter < 1){
-    frc::Color detectedColor = m_colorSensor.GetColor();
-
-    /**
-     * Run the color match algorithm on our detected color
-     */
-    std::string colorString;
-    double confidence = 0.0;
-    frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
-
-    if (matchedColor == kBlueTarget) {
-      colorString = "Blue";
-    } else if (matchedColor == kRedTarget) {
-      colorString = "Red";
-    } else if (matchedColor == kGreenTarget) {
-      colorString = "Green";
-    } else if (matchedColor == kYellowTarget) {
-      colorString = "Yellow";
-    } else if (matchedColor == Ball) {
-      colorString = "Ball";
-    } else {
-      colorString = "Unknown";
-    }
-
-
-
-
-    /**
-     * Open Smart Dashboard or Shuffleboard to see the color detected by the 
-     * sensor.
-     */
-    frc::SmartDashboard::PutNumber("Red", detectedColor.red);
-    frc::SmartDashboard::PutNumber("Green", detectedColor.green);
-    frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
-    frc::SmartDashboard::PutNumber("Confidence", confidence);
-    frc::SmartDashboard::PutString("Detected Color", colorString);
-    if (matchedColor == kGreenTarget){
-      colorCounter++;
-    }
-    }
-     
-       //NidecValue=.25;
-       //motor.Set(NidecValue);
-    NidecValue = 0;
-    motor.Set(NidecValue);
-    }
-
-//sets wheel to blue
-    if (driverTwoJoystick.GetRawButton(3)){
-      //run motor until green is seen twice
- 
-        /**
-     * The method GetColor() returns a normalized color value from the sensor and can be
-     * useful if outputting the color to an RGB LED or similar. To
-     * read the raw color, use GetRawColor().
-     * 
-     * The color sensor works best when within a few inches from an object in
-     * well lit conditions (the built in LED is a big help here!). The farther
-     * an object is the more light from the surroundings will bleed into the 
-     * measurements and make it difficult to accurately determine its color.
-     */
-    int colorCounter = 0;
-    NidecValue = .25;
-    motor.Set(NidecValue);
-    while (colorCounter < 1){
-    frc::Color detectedColor = m_colorSensor.GetColor();
-
-    /**
-     * Run the color match algorithm on our detected color
-     */
-    std::string colorString;
-    double confidence = 0.0;
-    frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
-
-    if (matchedColor == kBlueTarget) {
-      colorString = "Blue";
-    } else if (matchedColor == kRedTarget) {
-      colorString = "Red";
-    } else if (matchedColor == kGreenTarget) {
-      colorString = "Green";
-    } else if (matchedColor == kYellowTarget) {
-      colorString = "Yellow";
-    } else if (matchedColor == Ball) {
-      colorString = "Ball";
-    } else {
-      colorString = "Unknown";
-    }
-
-
-
-
-    /**
-     * Open Smart Dashboard or Shuffleboard to see the color detected by the 
-     * sensor.
-     */
-    frc::SmartDashboard::PutNumber("Red", detectedColor.red);
-    frc::SmartDashboard::PutNumber("Green", detectedColor.green);
-    frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
-    frc::SmartDashboard::PutNumber("Confidence", confidence);
-    frc::SmartDashboard::PutString("Detected Color", colorString);
-    if (matchedColor == kRedTarget){
-      colorCounter++;
-    }
-    }
      
        //NidecValue=.25;
        //motor.Set(NidecValue);
@@ -486,7 +303,7 @@ class Robot : public frc::TimedRobot {
     }
 
     
-  }
+  
 
   void TeleopDisable() {
        motor.Disable(); 

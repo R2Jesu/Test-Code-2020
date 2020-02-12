@@ -5,35 +5,54 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "Robot.h"
+#pragma once
 
-#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/Joystick.h>
+#include <frc/PWMVictorSPX.h>
+#include <frc/TimedRobot.h>
+#include <frc/Timer.h>
+#include <frc/drive/DifferentialDrive.h>
+#include <frc/livewindow/LiveWindow.h>
+#include <frc/smartdashboard/SendableChooser.h>
+#include <frc/DriverStation.h>
+#include "AHRS.h"
 
-/**
- * This is a demo program providing a real-time display of navX
- * MXP values.
- *
- * In the operatorControl() method, all data from the navX sensor is retrieved
- * and output to the SmartDashboard.
- *
- * The output data values include:
- *
- * - Yaw, Pitch and Roll angles
- * - Compass Heading and 9-Axis Fused Heading (requires Magnetometer calibration)
- * - Linear Acceleration Data
- * - Motion Indicators
- * - Estimated Velocity and Displacement
- * - Quaternion Data
- * - Raw Gyro, Accelerometer and Magnetometer Data
- *
- * As well, Board Information is also retrieved; this can be useful for debugging
- * connectivity issues after initial installation of the navX MXP sensor.
- *
- */
+using namespace frc;
 
-void Robot::RobotInit()
-{
-  stick = new Joystick(joystickChannel);
+class Robot : public frc::TimedRobot {
+ public:
+ 
+  void RobotInit() override;
+  void RobotPeriodic() override; 
+
+  Robot() {
+    m_robotDrive.SetExpiration(0.1);
+    m_timer.Start();
+  }
+
+  void AutonomousInit() override {
+    m_timer.Reset();
+    m_timer.Start();
+  }
+
+  void AutonomousPeriodic() override {
+    // Drive for 2 seconds
+    if (m_timer.Get() < 2.0) {
+      // Drive forwards half speed
+      m_robotDrive.ArcadeDrive(-0.5, 0.0);
+    } else {
+      // Stop robot
+      m_robotDrive.ArcadeDrive(0.0, 0.0);
+    }
+  }
+
+  void TeleopInit() override {}
+
+  void TeleopPeriodic() override {
+    // Drive with arcade style (use right stick)
+    m_robotDrive.ArcadeDrive(m_stick.GetY(), m_stick.GetX());
+
+      stick = new Joystick(joystickChannel);
   try
   {
     /***********************************************************************
@@ -60,114 +79,28 @@ void Robot::RobotInit()
     const char *p_err_msg = err_msg.c_str();
     DriverStation::ReportError(p_err_msg);
   }
-}
-
-/**
- * This function is called every robot packet, no matter the mode. Use
- * this for items like diagnostics that you want ran during disabled,
- * autonomous, teleoperated and test.
- *
- * <p> This runs after the mode specific periodic functions, but before
- * LiveWindow and SmartDashboard integrated updating.
- */
-void Robot::RobotPeriodic() {}
-
-/**
- * This autonomous (along with the chooser code above) shows how to select
- * between different autonomous modes using the dashboard. The sendable chooser
- * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
- * remove all of the chooser code and uncomment the GetString line to get the
- * auto name from the text box below the Gyro.
- *
- * You can add additional auto modes by adding additional comparisons to the
- * if-else structure below with additional strings. If using the SendableChooser
- * make sure to add them to the chooser code above as well.
- */
-void Robot::AutonomousInit()
-{
-}
-
-void Robot::AutonomousPeriodic()
-{
-}
-
-void Robot::TeleopInit() {}
-
-void Robot::TeleopPeriodic()
-{
-  if (!ahrs)
-    return;
-
-  bool reset_yaw_button_pressed = stick->GetRawButton(1);
-  if (reset_yaw_button_pressed)
-  {
-    ahrs->ZeroYaw();
   }
 
-  SmartDashboard::PutBoolean("IMU_Connected", ahrs->IsConnected());
-  SmartDashboard::PutNumber("IMU_Yaw", ahrs->GetYaw());
-  SmartDashboard::PutNumber("IMU_Pitch", ahrs->GetPitch());
-  SmartDashboard::PutNumber("IMU_Roll", ahrs->GetRoll());
-  SmartDashboard::PutNumber("IMU_CompassHeading", ahrs->GetCompassHeading());
-  SmartDashboard::PutNumber("IMU_Update_Count", ahrs->GetUpdateCount());
-  SmartDashboard::PutNumber("IMU_Byte_Count", ahrs->GetByteCount());
-  SmartDashboard::PutNumber("IMU_Timestamp", ahrs->GetLastSensorTimestamp());
+  void TestPeriodic() override {}
 
-  /* These functions are compatible w/the WPI Gyro Class */
-  SmartDashboard::PutNumber("IMU_TotalYaw", ahrs->GetAngle());
-  SmartDashboard::PutNumber("IMU_YawRateDPS", ahrs->GetRate());
+ private:
+  // Robot drive system
+  frc::PWMVictorSPX m_left{1};
+  frc::PWMVictorSPX m_right{0};
+  frc::DifferentialDrive m_robotDrive{m_left, m_right};
 
-  SmartDashboard::PutNumber("IMU_Accel_X", ahrs->GetWorldLinearAccelX());
-  SmartDashboard::PutNumber("IMU_Accel_Y", ahrs->GetWorldLinearAccelY());
-  SmartDashboard::PutBoolean("IMU_IsMoving", ahrs->IsMoving());
-  SmartDashboard::PutNumber("IMU_Temp_C", ahrs->GetTempC());
-  SmartDashboard::PutBoolean("IMU_IsCalibrating", ahrs->IsCalibrating());
+  frc::Joystick m_stick{0};
+  frc::LiveWindow& m_lw = *frc::LiveWindow::GetInstance();
+  frc::Timer m_timer;
 
-  SmartDashboard::PutNumber("Velocity_X", ahrs->GetVelocityX());
-  SmartDashboard::PutNumber("Velocity_Y", ahrs->GetVelocityY());
-  SmartDashboard::PutNumber("Displacement_X", ahrs->GetDisplacementX());
-  SmartDashboard::PutNumber("Displacement_Y", ahrs->GetDisplacementY());
+  const static int joystickChannel = 0;
 
-  /* Display Raw Gyro/Accelerometer/Magnetometer Values                       */
-  /* NOTE:  These values are not normally necessary, but are made available   */
-  /* for advanced users.  Before using this data, please consider whether     */
-  /* the processed data (see above) will suit your needs.                     */
+  Joystick *stick; // only joystick
+  AHRS *ahrs;
+  int autoLoopCounter;
 
-  SmartDashboard::PutNumber("RawGyro_X", ahrs->GetRawGyroX());
-  SmartDashboard::PutNumber("RawGyro_Y", ahrs->GetRawGyroY());
-  SmartDashboard::PutNumber("RawGyro_Z", ahrs->GetRawGyroZ());
-  SmartDashboard::PutNumber("RawAccel_X", ahrs->GetRawAccelX());
-  SmartDashboard::PutNumber("RawAccel_Y", ahrs->GetRawAccelY());
-  SmartDashboard::PutNumber("RawAccel_Z", ahrs->GetRawAccelZ());
-  SmartDashboard::PutNumber("RawMag_X", ahrs->GetRawMagX());
-  SmartDashboard::PutNumber("RawMag_Y", ahrs->GetRawMagY());
-  SmartDashboard::PutNumber("RawMag_Z", ahrs->GetRawMagZ());
-  SmartDashboard::PutNumber("IMU_Temp_C", ahrs->GetTempC());
-  /* Omnimount Yaw Axis Information                                           */
-  /* For more info, see http://navx-mxp.kauailabs.com/installation/omnimount  */
-  AHRS::BoardYawAxis yaw_axis = ahrs->GetBoardYawAxis();
-  SmartDashboard::PutString("YawAxisDirection", yaw_axis.up ? "Up" : "Down");
-  SmartDashboard::PutNumber("YawAxis", yaw_axis.board_axis);
-
-  /* Sensor Board Information                                                 */
-  SmartDashboard::PutString("FirmwareVersion", ahrs->GetFirmwareVersion());
-
-  /* Quaternion Data                                                          */
-  /* Quaternions are fascinating, and are the most compact representation of  */
-  /* orientation data.  All of the Yaw, Pitch and Roll Values can be derived  */
-  /* from the Quaternions.  If interested in motion processing, knowledge of  */
-  /* Quaternions is highly recommended.                                       */
-  SmartDashboard::PutNumber("QuaternionW", ahrs->GetQuaternionW());
-  SmartDashboard::PutNumber("QuaternionX", ahrs->GetQuaternionX());
-  SmartDashboard::PutNumber("QuaternionY", ahrs->GetQuaternionY());
-  SmartDashboard::PutNumber("QuaternionZ", ahrs->GetQuaternionZ());
-}
-
-void Robot::TestPeriodic() {}
+};
 
 #ifndef RUNNING_FRC_TESTS
-int main()
-{
-  return frc::StartRobot<Robot>();
-}
+int main() { return frc::StartRobot<Robot>(); }
 #endif

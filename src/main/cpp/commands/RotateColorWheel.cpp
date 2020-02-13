@@ -4,6 +4,6 @@ RotateColorWheel::RotateColorWheel(ColorWheelSubsystem* subsystem) : m_colorwhee
   AddRequirements({subsystem});
 }
 
-void RotateColorWheel::Initialize() { m_colorwheel->RotateColorWheel(); }
-
+void RotateColorWheel::Initialize() { }
+void RotateColorWheel::Execute() { m_colorwheel->RotateColorWheel(); }
 bool RotateColorWheel::IsFinished() { return true; }

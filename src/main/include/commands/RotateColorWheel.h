@@ -13,7 +13,7 @@ class RotateColorWheel : public frc2::CommandHelper<frc2::CommandBase, RotateCol
   explicit RotateColorWheel(ColorWheelSubsystem* subsystem);
 
   void Initialize() override;
-
+  void Execute() override;
   bool IsFinished() override;
 
  private:

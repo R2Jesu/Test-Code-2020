@@ -17,6 +17,10 @@ using namespace frc;
 
 class Robot : public TimedRobot
 {
+
+AHRS *ahrs;
+int autoLoopCounter;
+
 public:
   void RobotInit() override;
   void RobotPeriodic() override;
@@ -29,7 +33,6 @@ public:
 private:
   const static int joystickChannel = 0;
 
-  Joystick *stick; // only joystick
-  AHRS *ahrs;
-  int autoLoopCounter;
+ // frc::Joystick *stick; // only joystick
+
 };

@@ -4,37 +4,28 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
-#include "Robot.h"
-
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/Joystick.h>
+#include <frc/PWMVictorSPX.h>
+#include <frc/TimedRobot.h>
+#include <frc/Timer.h>
+#include <frc/drive/DifferentialDrive.h>
+#include <frc/livewindow/LiveWindow.h>
+#include <frc/spark.h>
+#include <Robot.h>
 
-/**
- * This is a demo program providing a real-time display of navX
- * MXP values.
- *
- * In the operatorControl() method, all data from the navX sensor is retrieved
- * and output to the SmartDashboard.
- *
- * The output data values include:
- *
- * - Yaw, Pitch and Roll angles
- * - Compass Heading and 9-Axis Fused Heading (requires Magnetometer calibration)
- * - Linear Acceleration Data
- * - Motion Indicators
- * - Estimated Velocity and Displacement
- * - Quaternion Data
- * - Raw Gyro, Accelerometer and Magnetometer Data
- *
- * As well, Board Information is also retrieved; this can be useful for debugging
- * connectivity issues after initial installation of the navX MXP sensor.
- *
- */
+  frc::PWMVictorSPX m_left{1};
+  frc::PWMVictorSPX m_right{0};
+  frc::DifferentialDrive m_robotDrive{m_left, m_right};
 
-void Robot::RobotInit()
-{
-  stick = new Joystick(joystickChannel);
-  try
+  frc::Joystick m_stick{0};
+  frc::LiveWindow& m_lw = *frc::LiveWindow::GetInstance();
+  frc::Timer m_timer;
+  frc::Spark launchMotorLeft{9}; 
+  frc::Spark launchMotorRight{8}; 
+
+void Robot::RobotInit() {
+     try
   {
     /***********************************************************************
      * navX-MXP:
@@ -58,51 +49,34 @@ void Robot::RobotInit()
     std::string what_string = ex.what();
     std::string err_msg("Error instantiating navX MXP:  " + what_string);
     const char *p_err_msg = err_msg.c_str();
+    printf("Incatchblock\n");
     DriverStation::ReportError(p_err_msg);
   }
-}
+  }
 
-/**
- * This function is called every robot packet, no matter the mode. Use
- * this for items like diagnostics that you want ran during disabled,
- * autonomous, teleoperated and test.
- *
- * <p> This runs after the mode specific periodic functions, but before
- * LiveWindow and SmartDashboard integrated updating.
- */
-void Robot::RobotPeriodic() {}
+  void Robot::AutonomousInit() {
+   
+  }
 
-/**
- * This autonomous (along with the chooser code above) shows how to select
- * between different autonomous modes using the dashboard. The sendable chooser
- * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
- * remove all of the chooser code and uncomment the GetString line to get the
- * auto name from the text box below the Gyro.
- *
- * You can add additional auto modes by adding additional comparisons to the
- * if-else structure below with additional strings. If using the SendableChooser
- * make sure to add them to the chooser code above as well.
- */
-void Robot::AutonomousInit()
-{
-}
+  void Robot::AutonomousPeriodic()  {
+    
+  }
 
-void Robot::AutonomousPeriodic()
-{
-}
+  void Robot::TeleopInit()  {ahrs->ZeroYaw();}
 
-void Robot::TeleopInit() {}
+  void Robot::TeleopPeriodic()  {
+    // Drive with arcade style (use right stick)
+    m_robotDrive.ArcadeDrive(m_stick.GetY(), m_stick.GetX());
+ 
 
-void Robot::TeleopPeriodic()
-{
-  if (!ahrs)
+    if (!ahrs)
     return;
 
-  bool reset_yaw_button_pressed = stick->GetRawButton(1);
-  if (reset_yaw_button_pressed)
-  {
-    ahrs->ZeroYaw();
-  }
+  //bool reset_yaw_button_pressed = m_stick->GetRawButton(1);
+  //if (reset_yaw_button_pressed)
+  //{
+  //  ahrs->ZeroYaw();
+  //}
 
   SmartDashboard::PutBoolean("IMU_Connected", ahrs->IsConnected());
   SmartDashboard::PutNumber("IMU_Yaw", ahrs->GetYaw());
@@ -161,13 +135,27 @@ void Robot::TeleopPeriodic()
   SmartDashboard::PutNumber("QuaternionX", ahrs->GetQuaternionX());
   SmartDashboard::PutNumber("QuaternionY", ahrs->GetQuaternionY());
   SmartDashboard::PutNumber("QuaternionZ", ahrs->GetQuaternionZ());
-}
 
-void Robot::TestPeriodic() {}
+ m_robotDrive.ArcadeDrive(m_stick.GetY(), m_stick.GetX());
+
+ 
+
+    
+  }
+
+
+  void Robot::RobotPeriodic()  {
+
+  }
+
+  void Robot::TestPeriodic()  {
+
+  }
+
+  // Robot drive system
+
+
 
 #ifndef RUNNING_FRC_TESTS
-int main()
-{
-  return frc::StartRobot<Robot>();
-}
+int main() { return frc::StartRobot<Robot>(); }
 #endif

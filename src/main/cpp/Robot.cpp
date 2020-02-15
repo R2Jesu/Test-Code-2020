@@ -55,7 +55,10 @@ void Robot::RobotInit() {
   }
 
   void Robot::AutonomousInit() {
-   
+   while (ahrs->GetYaw() < 90){
+    m_robotDrive.ArcadeDrive(-0.4, 0.4);
+   }
+    m_robotDrive.ArcadeDrive(0.0, 0.0);
   }
 
   void Robot::AutonomousPeriodic()  {

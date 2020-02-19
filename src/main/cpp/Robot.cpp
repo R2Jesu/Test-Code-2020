@@ -58,24 +58,44 @@ void Robot::RobotInit() {
   }
 
   void Robot::AutonomousInit() {
+    {ahrs->ZeroYaw();}
     m_encoder.Reset();
   m_encoder.SetSamplesToAverage(5); 
   m_encoder.SetDistancePerPulse(((wpi::math::pi * 6.0)/2048) / 12);
   m_encoder.SetMinRate(1.0);
-  while (m_encoder.GetDistance() < 2.9) {
-    m_robotDrive.ArcadeDrive(-0.4, 0);
+  while ((m_encoder.GetDistance() < 42.75)) {
+    if (ahrs->GetYaw() < 0){
+    m_robotDrive.ArcadeDrive(-0.4, 0.1);
+    } else if (ahrs->GetYaw() > 0){
+      m_robotDrive.ArcadeDrive(-0.4, -0.1);
+    } else {
+      m_robotDrive.ArcadeDrive(-0.4, 0);
+      }
+    
     }
-   while (ahrs->GetYaw() < 90){
+  while (ahrs->GetYaw() < 180){
     m_robotDrive.ArcadeDrive(0, 0.3);
    }
     m_robotDrive.ArcadeDrive(0.0, 0.0);
+    m_encoder.Reset();
+    {ahrs->ZeroYaw();}
+     while (m_encoder.GetDistance() < 42.75) {
+       if (ahrs->GetYaw() < 0){
+    m_robotDrive.ArcadeDrive(-0.4, 0.1);
+    } else if (ahrs->GetYaw() > 0){
+      m_robotDrive.ArcadeDrive(-0.4, -0.1);
+    } else {
+      m_robotDrive.ArcadeDrive(-0.4, 0);
+      }
+     };
+    }
   }
 
   void Robot::AutonomousPeriodic()  {
     
   }
 
-  void Robot::TeleopInit()  {ahrs->ZeroYaw();}
+  void Robot::TeleopInit() 
 
   void Robot::TeleopPeriodic()  {
     // Drive with arcade style (use right stick)

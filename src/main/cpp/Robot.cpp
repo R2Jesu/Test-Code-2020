@@ -13,7 +13,10 @@
 #include <frc/livewindow/LiveWindow.h>
 #include <frc/spark.h>
 #include <Robot.h>
+#include <frc/Encoder.h>
+#include <wpi/math>
 
+  frc::Encoder m_encoder{7,8, true};
   frc::PWMVictorSPX m_left{1};
   frc::PWMVictorSPX m_right{0};
   frc::DifferentialDrive m_robotDrive{m_left, m_right};
@@ -55,8 +58,15 @@ void Robot::RobotInit() {
   }
 
   void Robot::AutonomousInit() {
+    m_encoder.Reset();
+  m_encoder.SetSamplesToAverage(5); 
+  m_encoder.SetDistancePerPulse(((wpi::math::pi * 6.0)/2048) / 12);
+  m_encoder.SetMinRate(1.0);
+  while (m_encoder.GetDistance() < 2.9) {
+    m_robotDrive.ArcadeDrive(-0.4, 0);
+    }
    while (ahrs->GetYaw() < 90){
-    m_robotDrive.ArcadeDrive(-0.4, 0.4);
+    m_robotDrive.ArcadeDrive(0, 0.3);
    }
     m_robotDrive.ArcadeDrive(0.0, 0.0);
   }
@@ -138,6 +148,10 @@ void Robot::RobotInit() {
   SmartDashboard::PutNumber("QuaternionX", ahrs->GetQuaternionX());
   SmartDashboard::PutNumber("QuaternionY", ahrs->GetQuaternionY());
   SmartDashboard::PutNumber("QuaternionZ", ahrs->GetQuaternionZ());
+
+  frc::SmartDashboard::PutNumber("Encoder Distance", m_encoder.GetDistance());
+  frc::SmartDashboard::PutNumber("Encoder Cout", m_encoder.Get());
+  frc::SmartDashboard::PutNumber("Encoder Rate", m_encoder.GetRate());
 
  m_robotDrive.ArcadeDrive(m_stick.GetY(), m_stick.GetX());
 

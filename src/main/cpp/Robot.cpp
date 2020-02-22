@@ -1,74 +1,75 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2017-2019 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include <frc/TimedRobot.h>
-#include <frc/smartdashboard/smartdashboard.h>
+#include <thread>
 
-#include "rev/ColorSensorV3.h"
+#include <cameraserver/CameraServer.h>
+#include <frc/TimedRobot.h>
+#include <opencv2/core/core.hpp>
+#include <opencv2/core/types.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <wpi/raw_ostream.h>
 
 /**
- * This is a simple example to show the values that can be read from the REV
- * Color Sensor V3
+ * This is a demo program showing the use of OpenCV to do vision processing. The
+ * image is acquired from the USB camera, then a rectangle is put on the image
+ * and sent to the dashboard. OpenCV has many methods for different types of
+ * processing.
  */
 class Robot : public frc::TimedRobot {
-  /**
-   * Change the I2C port below to match the connection of your color sensor
-   */
-  static constexpr auto i2cPort = frc::I2C::Port::kOnboard;
+#if defined(__linux__)
 
-  /**
-   * A Rev Color Sensor V3 object is constructed with an I2C port as a 
-   * parameter. The device will be automatically initialized with default 
-   * parameters.
-   */
-  rev::ColorSensorV3 m_colorSensor{i2cPort};
+ private:
+  static void VisionThread() {
+    // Get the USB camera from CameraServer
+    cs::UsbCamera camera =
+        frc::CameraServer::GetInstance()->StartAutomaticCapture();
+    // Set the resolution
+    camera.SetResolution(640, 480);
 
- public:
-  void RobotPeriodic() {
-    /**
-     * The method GetColor() returns a normalized color value from the sensor and can be
-     * useful if outputting the color to an RGB LED or similar. To
-     * read the raw color, use GetRawColor().
-     * 
-     * The color sensor works best when within a few inches from an object in
-     * well lit conditions (the built in LED is a big help here!). The farther
-     * an object is the more light from the surroundings will bleed into the 
-     * measurements and make it difficult to accurately determine its color.
-     */
-    frc::Color detectedColor = m_colorSensor.GetColor();
+    // Get a CvSink. This will capture Mats from the Camera
+    cs::CvSink cvSink = frc::CameraServer::GetInstance()->GetVideo();
+    // Setup a CvSource. This will send images back to the Dashboard
+    cs::CvSource outputStream =
+        frc::CameraServer::GetInstance()->PutVideo("Rectangle", 640, 480);
 
-    /**
-     * The sensor returns a raw IR value of the infrared light detected.
-     */
-    double IR = m_colorSensor.GetIR();
+    // Mats are very memory expensive. Lets reuse this Mat.
+    cv::Mat mat;
 
-    /**
-     * Open Smart Dashboard or Shuffleboard to see the color detected by the 
-     * sensor.
-     */
-    frc::SmartDashboard::PutNumber("Red", detectedColor.red);
-    frc::SmartDashboard::PutNumber("Green", detectedColor.green);
-    frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
-    frc::SmartDashboard::PutNumber("IR", IR);
+    while (true) {
+      // Tell the CvSink to grab a frame from the camera and
+      // put it
+      // in the source mat.  If there is an error notify the
+      // output.
+      if (cvSink.GrabFrame(mat) == 0) {
+        // Send the output the error.
+        outputStream.NotifyError(cvSink.GetError());
+        // skip the rest of the current iteration
+        continue;
+      }
+      // Put a rectangle on the image
+      rectangle(mat, cv::Point(100, 100), cv::Point(400, 400),
+                cv::Scalar(255, 255, 255), 5);
+      // Give the output stream a new image to display
+      outputStream.PutFrame(mat);
+    }
+  }
+#endif
 
-    /**
-     * In addition to RGB IR values, the color sensor can also return an 
-     * infrared proximity value. The chip contains an IR led which will emit
-     * IR pulses and measure the intensity of the return. When an object is 
-     * close the value of the proximity will be large (max 2047 with default
-     * settings) and will approach zero when the object is far away.
-     * 
-     * Proximity can be used to roughly approximate the distance of an object
-     * or provide a threshold for when an object is close enough to provide
-     * accurate color values.
-     */
-    uint32_t proximity = m_colorSensor.GetProximity();
-
-    frc::SmartDashboard::PutNumber("Proximity", proximity);
+  void RobotInit() override {
+    // We need to run our vision program in a separate thread. If not, our robot
+    // program will not run.
+#if defined(__linux__)
+    std::thread visionThread(VisionThread);
+    visionThread.detach();
+#else
+    wpi::errs() << "Vision only available on Linux.\n";
+    wpi::errs().flush();
+#endif
   }
 };
 

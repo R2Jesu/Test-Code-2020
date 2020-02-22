@@ -15,6 +15,8 @@
 #include <Robot.h>
 #include <frc/Encoder.h>
 #include <wpi/math>
+#include <unistd.h>
+#include <cmath>
 
   frc::Encoder m_encoder{7,8, true};
   frc::PWMVictorSPX m_left{1};
@@ -63,54 +65,69 @@ void Robot::RobotInit() {
   m_encoder.SetSamplesToAverage(5); 
   m_encoder.SetDistancePerPulse(((wpi::math::pi * 6.0)/2048) / 12);
   m_encoder.SetMinRate(1.0);
-  while ((m_encoder.GetDistance() < 42.75)) {
-    if (ahrs->GetYaw() < 0){
-    m_robotDrive.ArcadeDrive(-0.4, 0.1);
-    } else if (ahrs->GetYaw() > 0){
-      m_robotDrive.ArcadeDrive(-0.4, -0.1);
+  while ((m_encoder.GetDistance() < 5.75)) {
+    if (ahrs->GetYaw() < -0.1){
+    m_robotDrive.ArcadeDrive(-0.4, 0.2);
+    } else if (ahrs->GetYaw() > 0.1){
+      m_robotDrive.ArcadeDrive(-0.4, -0.2);
     } else {
       m_robotDrive.ArcadeDrive(-0.4, 0);
       }
     
     }
-  while (ahrs->GetYaw() < 180){
-    m_robotDrive.ArcadeDrive(0, 0.3);
-   }
+  while ((ahrs->GetYaw() < 179) && (ahrs->GetYaw() > -1)){
+    printf("turning\n");
+    m_left.Set(.175);
+    m_right.Set(.175);
+  }
     m_robotDrive.ArcadeDrive(0.0, 0.0);
+   // sleep(5);
+     SmartDashboard::PutNumber("IMU_Yaw", ahrs->GetYaw());
+     while (ahrs->GetYaw() > -179 && ahrs->GetYaw() < 0){
+       printf("correcting 1\n");
+       m_left.Set(-.15);
+       m_right.Set(-.15);
+     }
+     while ((ahrs->GetYaw() < 179) && (ahrs->GetYaw() > 0)){
+      printf("correcting 2\n");
+       m_left.Set(.15);
+       m_right.Set(.15);
+     }
     m_encoder.Reset();
-    {ahrs->ZeroYaw();}
-     while (m_encoder.GetDistance() < 42.75) {
-       if (ahrs->GetYaw() < 0){
-    m_robotDrive.ArcadeDrive(-0.4, 0.1);
-    } else if (ahrs->GetYaw() > 0){
-      m_robotDrive.ArcadeDrive(-0.4, -0.1);
+    //{ahrs->ZeroYaw();}
+     while (m_encoder.GetDistance() < 5.75) {
+       if ((ahrs->GetYaw() < 179) && (ahrs->GetYaw() > 0)){
+    m_robotDrive.ArcadeDrive(-0.4, 0.2);
+    } else if ((ahrs->GetYaw() > -179) && (ahrs->GetYaw() < 0)){
+      m_robotDrive.ArcadeDrive(-0.4, -0.2);
     } else {
       m_robotDrive.ArcadeDrive(-0.4, 0);
       }
-     };
+     }
     }
-  }
+  
 
   void Robot::AutonomousPeriodic()  {
     
   }
 
-  void Robot::TeleopInit() 
+  void Robot::TeleopInit() {
+
+  }
 
   void Robot::TeleopPeriodic()  {
-    // Drive with arcade style (use right stick)
+  /*  // Drive with arcade style (use right stick)
     m_robotDrive.ArcadeDrive(m_stick.GetY(), m_stick.GetX());
  
 
     if (!ahrs)
     return;
 
-  //bool reset_yaw_button_pressed = m_stick->GetRawButton(1);
-  //if (reset_yaw_button_pressed)
-  //{
-  //  ahrs->ZeroYaw();
+ // bool reset_yaw_button_pressed = m_stick->GetRawButton(1);
+  //if (reset_yaw_button_pressed){
+    //ahrs->ZeroYaw();
   //}
-
+*/
   SmartDashboard::PutBoolean("IMU_Connected", ahrs->IsConnected());
   SmartDashboard::PutNumber("IMU_Yaw", ahrs->GetYaw());
   SmartDashboard::PutNumber("IMU_Pitch", ahrs->GetPitch());
@@ -152,12 +169,12 @@ void Robot::RobotInit() {
   SmartDashboard::PutNumber("IMU_Temp_C", ahrs->GetTempC());
   /* Omnimount Yaw Axis Information                                           */
   /* For more info, see http://navx-mxp.kauailabs.com/installation/omnimount  */
-  AHRS::BoardYawAxis yaw_axis = ahrs->GetBoardYawAxis();
+ /* AHRS::BoardYawAxis yaw_axis = ahrs->GetBoardYawAxis();
   SmartDashboard::PutString("YawAxisDirection", yaw_axis.up ? "Up" : "Down");
   SmartDashboard::PutNumber("YawAxis", yaw_axis.board_axis);
 
   /* Sensor Board Information                                                 */
-  SmartDashboard::PutString("FirmwareVersion", ahrs->GetFirmwareVersion());
+ /* SmartDashboard::PutString("FirmwareVersion", ahrs->GetFirmwareVersion());
 
   /* Quaternion Data                                                          */
   /* Quaternions are fascinating, and are the most compact representation of  */
@@ -173,7 +190,6 @@ void Robot::RobotInit() {
   frc::SmartDashboard::PutNumber("Encoder Cout", m_encoder.Get());
   frc::SmartDashboard::PutNumber("Encoder Rate", m_encoder.GetRate());
 
- m_robotDrive.ArcadeDrive(m_stick.GetY(), m_stick.GetX());
 
  
 

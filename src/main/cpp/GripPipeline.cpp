@@ -11,8 +11,8 @@ void GripPipeline::Process(cv::Mat& source0){
 	//Step Resize_Image0:
 	//input
 	cv::Mat resizeImageInput = source0;
-	double resizeImageWidth = 640;  // default Double
-	double resizeImageHeight = 480;  // default Double
+	double resizeImageWidth = 640.0;  // default Double
+	double resizeImageHeight = 480.0;  // default Double
 	int resizeImageInterpolation = cv::INTER_CUBIC;
 	resizeImage(resizeImageInput, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, this->resizeImageOutput);
 	//Step Blur0:
@@ -24,9 +24,9 @@ void GripPipeline::Process(cv::Mat& source0){
 	//Step HSV_Threshold0:
 	//input
 	cv::Mat hsvThresholdInput = blurOutput;
-	double hsvThresholdHue[] = {0.0, 180.0};
-	double hsvThresholdSaturation[] = {0.0, 59.18088737201366};
-	double hsvThresholdValue[] = {0.0, 200.6058020477816};
+	double hsvThresholdHue[] = {63.669065005487674, 98.08874501303195};
+	double hsvThresholdSaturation[] = {100.89928658960535, 255.0};
+	double hsvThresholdValue[] = {87.1402965175162, 244.84640531572467};
 	hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, this->hsvThresholdOutput);
 	//Step Find_Contours0:
 	//input

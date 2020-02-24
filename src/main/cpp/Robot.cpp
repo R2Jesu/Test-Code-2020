@@ -13,6 +13,7 @@
 #include <opencv2/core/types.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <wpi/raw_ostream.h>
+#include <GripPipeline.h>
 
 /**
  * This is a demo program showing the use of OpenCV to do vision processing. The
@@ -39,6 +40,7 @@ class Robot : public frc::TimedRobot {
 
     // Mats are very memory expensive. Lets reuse this Mat.
     cv::Mat mat;
+    grip::GripPipeline gp;
 
     while (true) {
       // Tell the CvSink to grab a frame from the camera and
@@ -52,10 +54,28 @@ class Robot : public frc::TimedRobot {
         continue;
       }
       // Put a rectangle on the image
-      rectangle(mat, cv::Point(100, 100), cv::Point(400, 400),
-                cv::Scalar(255, 255, 255), 5);
+//      rectangle(mat, cv::Point(100, 100), cv::Point(400, 400),
+//                cv::Scalar(255, 255, 255), 5);
+      gp.GripPipeline::Process(mat);
       // Give the output stream a new image to display
-      outputStream.PutFrame(mat);
+		for (size_t i = 0; i < (*gp.GripPipeline::GetFindContoursOutput()).size(); i++)
+        {
+		   float contourArea = cv::contourArea((*gp.GripPipeline::GetFindContoursOutput())[i]);
+          if (contourArea > 100000 || contourArea < 100)
+           {
+              continue;
+           }
+//           printf("Something else: %f\n", contourArea);
+           cv::Rect boundRect = cv::boundingRect((*gp.GripPipeline::GetFindContoursOutput())[i]);
+// We actually want the top middle as the target center as this is half the goal
+           double centerX = boundRect.x + (boundRect.width / 2);
+//           double centerY = boundRect.y + (boundRect.height / 2);
+           double centerY = boundRect.y;
+           cv::drawContours(mat, *gp.GripPipeline::GetFindContoursOutput(), i, cv::Scalar(255, 0, 0), 3);
+           rectangle(mat, cv::Point(centerX - 10, centerY - 10), cv::Point(centerX + 10, centerY + 10), cv::Scalar(0, 0, 255), 5);
+        }
+      outputStream.PutFrame(mat); 
+      //printf("crap %s\n", gp.GetFindContoursOutput());
     }
   }
 #endif

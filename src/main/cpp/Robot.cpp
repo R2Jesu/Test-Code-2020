@@ -42,42 +42,60 @@ class Robot : public frc::TimedRobot {
     cv::Mat mat;
     grip::GripPipeline gp;
 
-    while (true) {
-      // Tell the CvSink to grab a frame from the camera and
-      // put it
-      // in the source mat.  If there is an error notify the
-      // output.
+       while (true) {
+      // Get a frame from the camera stream and
+      // put it in the source mat.  
+      // If there is an error notify the output and skip the rest of the while
+
       if (cvSink.GrabFrame(mat) == 0) {
-        // Send the output the error.
         outputStream.NotifyError(cvSink.GetError());
-        // skip the rest of the current iteration
         continue;
       }
-      // Put a rectangle on the image
-//      rectangle(mat, cv::Point(100, 100), cv::Point(400, 400),
-//                cv::Scalar(255, 255, 255), 5);
+      //This below sends the mat or frame to the GRIP process that should tune it down to just the part of the image we want to see.  
+      //Tuning can really only be done in GRIP easily.  Alternatively you can change the numbers in the other cpp file, but you
+      //have to understand what they mean and adjust them slowly.  This really just gives you back contour values which was the last step in GRIP processing
+
       gp.GripPipeline::Process(mat);
-      // Give the output stream a new image to display
-		for (size_t i = 0; i < (*gp.GripPipeline::GetFindContoursOutput()).size(); i++)
+
+      //This calculates the area of the contours as it loops through them.  This is to discard really big and really small contours
+      //This number might need to be played with.  I guessed on a max an min.  We might lose something here.  If it isn't within the bounds the rest of the while
+      // is skipped
+
+      for (size_t i = 0; i < (*gp.GripPipeline::GetFindContoursOutput()).size(); i++)
         {
-		   float contourArea = cv::contourArea((*gp.GripPipeline::GetFindContoursOutput())[i]);
-          if (contourArea > 100000 || contourArea < 100)
+   float contourArea = cv::contourArea((*gp.GripPipeline::GetFindContoursOutput())[i]);
+           if (contourArea > 100000 || contourArea < 100)
            {
               continue;
            }
-//           printf("Something else: %f\n", contourArea);
+
+      // This draws an imaginary rectangle around the contours.  The rectangle is used to find the midpoint 
+
            cv::Rect boundRect = cv::boundingRect((*gp.GripPipeline::GetFindContoursOutput())[i]);
-// We actually want the top middle as the target center as this is half the goal
+
+      // The below finds the middle of the rectangle.  Since we have only half the target, I commented out one calculation and
+      // changed it to get the top middle instead of the middle middle.  That is the centerY calculation
+
            double centerX = boundRect.x + (boundRect.width / 2);
-//           double centerY = boundRect.y + (boundRect.height / 2);
+      //      double centerY = boundRect.y + (boundRect.height / 2);
            double centerY = boundRect.y;
+
+      // This just takes the contours again and draws a colored line on them.
+
            cv::drawContours(mat, *gp.GripPipeline::GetFindContoursOutput(), i, cv::Scalar(255, 0, 0), 3);
+
+      // This draws a 10 pixel the box at the center point.  The centerX and centerY are the values you should look at if you are targeting in autonomous
+      // You want to figure what they are when the target shows in the middle of the frame and then look for those values in your turn
+      // In autonomous the drawing is probably waste, you just need the values
+
            rectangle(mat, cv::Point(centerX - 10, centerY - 10), cv::Point(centerX + 10, centerY + 10), cv::Scalar(0, 0, 255), 5);
         }
+
+      // Take the mat with all the changes made above and send it to the output stream in the default driver station console
       outputStream.PutFrame(mat); 
-      //printf("crap %s\n", gp.GetFindContoursOutput());
     }
   }
+
 #endif
 
   void RobotInit() override {

@@ -8,25 +8,18 @@ GripPipeline::GripPipeline() {
 * Runs an iteration of the pipeline and updates outputs.
 */
 void GripPipeline::Process(cv::Mat& source0){
-	//Step Resize_Image0:
-	//input
-	cv::Mat resizeImageInput = source0;
-	double resizeImageWidth = 640.0;  // default Double
-	double resizeImageHeight = 480.0;  // default Double
-	int resizeImageInterpolation = cv::INTER_CUBIC;
-	resizeImage(resizeImageInput, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, this->resizeImageOutput);
 	//Step Blur0:
 	//input
-	cv::Mat blurInput = resizeImageOutput;
+	cv::Mat blurInput = source0;
 	BlurType blurType = BlurType::BOX;
 	double blurRadius = 0.0;  // default Double
 	blur(blurInput, blurType, blurRadius, this->blurOutput);
 	//Step HSV_Threshold0:
 	//input
 	cv::Mat hsvThresholdInput = blurOutput;
-	double hsvThresholdHue[] = {63.669065005487674, 98.08874501303195};
-	double hsvThresholdSaturation[] = {100.89928658960535, 255.0};
-	double hsvThresholdValue[] = {87.1402965175162, 244.84640531572467};
+	double hsvThresholdHue[] = {52.87769604072297, 84.77816285533711};
+	double hsvThresholdSaturation[] = {105.4856202585234, 255.0};
+	double hsvThresholdValue[] = {62.679850192164345, 255.0};
 	hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, this->hsvThresholdOutput);
 	//Step Find_Contours0:
 	//input
@@ -35,13 +28,6 @@ void GripPipeline::Process(cv::Mat& source0){
 	findContours(findContoursInput, findContoursExternalOnly, this->findContoursOutput);
 }
 
-/**
- * This method is a generated getter for the output of a Resize_Image.
- * @return Mat output from Resize_Image.
- */
-cv::Mat* GripPipeline::GetResizeImageOutput(){
-	return &(this->resizeImageOutput);
-}
 /**
  * This method is a generated getter for the output of a Blur.
  * @return Mat output from Blur.
@@ -63,19 +49,6 @@ cv::Mat* GripPipeline::GetHsvThresholdOutput(){
 std::vector<std::vector<cv::Point> >* GripPipeline::GetFindContoursOutput(){
 	return &(this->findContoursOutput);
 }
-	/**
-	 * Scales and image to an exact size.
-	 *
-	 * @param input The image on which to perform the Resize.
-	 * @param width The width of the output in pixels.
-	 * @param height The height of the output in pixels.
-	 * @param interpolation The type of interpolation.
-	 * @param output The image in which to store the output.
-	 */
-	void GripPipeline::resizeImage(cv::Mat &input, double width, double height, int interpolation, cv::Mat &output) {
-		cv::resize(input, output, cv::Size(width, height), 0.0, 0.0, interpolation);
-	}
-
 	/**
 	 * Softens an image using one of several filters.
 	 *

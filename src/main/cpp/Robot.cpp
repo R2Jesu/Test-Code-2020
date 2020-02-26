@@ -31,6 +31,7 @@ class Robot : public frc::TimedRobot {
         frc::CameraServer::GetInstance()->StartAutomaticCapture();
     // Set the resolution
     camera.SetResolution(640, 480);
+    camera.SetExposureManual(5);
 
     // Get a CvSink. This will capture Mats from the Camera
     cs::CvSink cvSink = frc::CameraServer::GetInstance()->GetVideo();
@@ -73,6 +74,7 @@ class Robot : public frc::TimedRobot {
            double centerY = boundRect.y;
            cv::drawContours(mat, *gp.GripPipeline::GetFindContoursOutput(), i, cv::Scalar(255, 0, 0), 3);
            rectangle(mat, cv::Point(centerX - 10, centerY - 10), cv::Point(centerX + 10, centerY + 10), cv::Scalar(0, 0, 255), 5);
+           printf("x value ", centerX);
         }
       outputStream.PutFrame(mat); 
       //printf("crap %s\n", gp.GetFindContoursOutput());

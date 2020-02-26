@@ -8,6 +8,7 @@
 #include <thread>
 
 #include <cameraserver/CameraServer.h>
+#include <frc/smartdashboard/smartdashboard.h>
 #include <frc/TimedRobot.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/core/types.hpp>

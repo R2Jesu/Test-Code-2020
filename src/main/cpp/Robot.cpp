@@ -17,6 +17,7 @@
 #include <GripPipeline.h>
 #include <cmath>
 #include <frc/PWMVictorSPX.h>
+#include <frc/drive/DifferentialDrive.h>
 
 
 frc::PWMVictorSPX m_left{1};

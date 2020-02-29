@@ -16,6 +16,7 @@
 #include <wpi/raw_ostream.h>
 #include <GripPipeline.h>
 #include <cmath>
+
 double turning;
 /**
  * This is a demo program showing the use of OpenCV to do vision processing. The

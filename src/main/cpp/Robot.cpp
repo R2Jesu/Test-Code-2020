@@ -117,7 +117,8 @@ class Robot : public frc::TimedRobot {
   
 void TeleopInit()  {
  while (turning < 320){
-  
+  m_left.Set(-.15);
+  m_right.Set(-.15);
  }
 }
 

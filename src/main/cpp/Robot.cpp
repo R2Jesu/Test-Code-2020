@@ -16,6 +16,14 @@
 #include <wpi/raw_ostream.h>
 #include <GripPipeline.h>
 #include <cmath>
+#include <frc/PWMVictorSPX.h>
+
+
+frc::PWMVictorSPX m_left{1};
+  frc::PWMVictorSPX m_right{0};
+
+frc::DifferentialDrive m_robotDrive{m_left, m_right};
+
 
 double turning;
 /**

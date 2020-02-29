@@ -10,7 +10,10 @@
 #include <frc/drive/DifferentialDrive.h>
 #include "rev/CANSparkMax.h"
 
-class Robot : public frc::TimedRobot {
+#include <frc/smartdashboard/SmartDashboard.h>
+
+class Robot : public frc::TimedRobot
+{
   /**
    * SPARK MAX controllers are intialized over CAN by constructing a CANSparkMax object
    * 
@@ -24,15 +27,15 @@ class Robot : public frc::TimedRobot {
    * The example below initializes four brushless motors with CAN IDs 1, 2, 3 and 4. Change
    * these parameters to match your setup
    */
-//  static const int leftLeadDeviceID = 1, leftFollowDeviceID = 2, rightLeadDeviceID = 3, rightFollowDeviceID = 4;
- 
- // 2020-01-15 MLH : Modified for only 2 bushless motors.
+  //  static const int leftLeadDeviceID = 1, leftFollowDeviceID = 2, rightLeadDeviceID = 3, rightFollowDeviceID = 4;
+
+  // 2020-01-15 MLH : Modified for only 2 bushless motors.
   static const int leftLeadDeviceID = 1, rightLeadDeviceID = 3;
- 
+
   rev::CANSparkMax m_leftLeadMotor{leftLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless};
   rev::CANSparkMax m_rightLeadMotor{rightLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless};
-// MLH  rev::CANSparkMax m_leftFollowMotor{rightLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless};
- // MLH rev::CANSparkMax m_rightFollowMotor{rightFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless};
+  // MLH  rev::CANSparkMax m_leftFollowMotor{rightLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless};
+  // MLH rev::CANSparkMax m_rightFollowMotor{rightFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless};
 
   /**
    * In RobotInit() below, we will configure m_leftFollowMotor and m_rightFollowMotor to follow 
@@ -41,12 +44,13 @@ class Robot : public frc::TimedRobot {
    * Because of this, we only need to pass the lead motors to m_robotDrive. Whatever commands are 
    * sent to them will automatically be copied by the follower motors
    */
- // MLH frc::DifferentialDrive m_robotDrive{m_leftLeadMotor, m_rightLeadMotor};
+  // MLH frc::DifferentialDrive m_robotDrive{m_leftLeadMotor, m_rightLeadMotor};
 
-  frc::Joystick m_stick{0};
-  
- public:
-  void RobotInit() {
+  frc::Joystick m_stick{1};
+
+public:
+  void RobotInit()
+  {
     /**
      * The RestoreFactoryDefaults method can be used to reset the configuration parameters
      * in the SPARK MAX to their factory default state. If no argument is passed, these
@@ -57,9 +61,9 @@ class Robot : public frc::TimedRobot {
     //  Invert the right motor
     m_rightLeadMotor.SetInverted(true);
 
-   // m_leftFollowMotor.RestoreFactoryDefaults();
-   // m_rightFollowMotor.RestoreFactoryDefaults();
-    
+    // m_leftFollowMotor.RestoreFactoryDefaults();
+    // m_rightFollowMotor.RestoreFactoryDefaults();
+
     /**
      * In CAN mode, one SPARK MAX can be configured to follow another. This is done by calling
      * the Follow() method on the SPARK MAX you want to configure as a follower, and by passing
@@ -70,18 +74,26 @@ class Robot : public frc::TimedRobot {
      */
     // m_leftFollowMotor.Follow(m_leftLeadMotor);
     // m_rightFollowMotor.Follow(m_rightLeadMotor);
-
   }
 
-  void TeleopPeriodic() {
+  void TeleopPeriodic()
+  {
     // Drive with arcade style
-//    m_robotDrive.ArcadeDrive(-m_stick.GetY(), m_stick.GetX());
-    m_leftLeadMotor.Set(-m_stick.GetY());
-    m_rightLeadMotor.Set(-m_stick.GetY());
+    //    m_robotDrive.ArcadeDrive(-m_stick.GetY(), m_stick.GetX());
+    double l_Y = m_stick.GetY();
+    m_leftLeadMotor.Set(l_Y);
+    m_rightLeadMotor.Set(l_Y);
+
+    frc::SmartDashboard::PutNumber("MtrPWR", l_Y);    
+    frc::SmartDashboard::PutNumber("MtrSPD_L", m_leftLeadMotor.Get());
+    frc::SmartDashboard::PutNumber("MtrSPD_R", m_rightLeadMotor.Get());
 
   }
 };
 
 #ifndef RUNNING_FRC_TESTS
-int main() { return frc::StartRobot<Robot>(); }
+int main()
+{
+  return frc::StartRobot<Robot>();
+}
 #endif

@@ -1,0 +1,4 @@
+See file:///D:/FRC/2020%20FRC/SW/RobotSource/Test-Code-2020/build/tmp/linkFrcUserProgramDebugExecutable/output.txt for all output for linkFrcUserProgramDebugExecutable.
+linking frcUserProgram successful.
+
+Finished linkFrcUserProgramDebugExecutable, see full log file:///D:/FRC/2020%20FRC/SW/RobotSource/Test-Code-2020/build/tmp/linkFrcUserProgramDebugExecutable/output.txt.

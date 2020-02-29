@@ -1,0 +1,6 @@
+See file:///D:/FRC/2020%20FRC/SW/RobotSource/Test-Code-2020/build/tmp/compileFrcUserProgramDebugExecutableFrcUserProgramCpp/output.txt for all output for compileFrcUserProgramDebugExecutableFrcUserProgramCpp.
+compiling GripPipeline.cpp successful.
+
+compiling Robot.cpp successful.
+
+Finished compileFrcUserProgramDebugExecutableFrcUserProgramCpp, see full log file:///D:/FRC/2020%20FRC/SW/RobotSource/Test-Code-2020/build/tmp/compileFrcUserProgramDebugExecutableFrcUserProgramCpp/output.txt.

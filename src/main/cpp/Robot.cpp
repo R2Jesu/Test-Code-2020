@@ -115,9 +115,9 @@ class Robot : public frc::TimedRobot {
     }
   }
   
-void TeleopPeriodic()  {
+void TeleopInit()  {
  while (turning < 320){
-   
+  
  }
 }
 

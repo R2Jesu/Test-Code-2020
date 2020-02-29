@@ -4,6 +4,7 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
+#define _USE_MATH_DEFINES
 
 #include <thread>
 
@@ -108,6 +109,10 @@ class Robot : public frc::TimedRobot {
             frc::SmartDashboard::PutNumber("distance2", distance2);
             double distance3 = ((70.25 * 333.82) / triLength);
             frc::SmartDashboard::PutNumber("distance3", distance3);
+
+            double distance4 = 24480 / (2 * tan(0.48195) * boundRect.width);
+            frc::SmartDashboard::PutNumber("distance 4", distance4);
+            frc::SmartDashboard::PutNumber("rectangle width", boundRect.width);
             turning = centerX;
         }
       outputStream.PutFrame(mat); 

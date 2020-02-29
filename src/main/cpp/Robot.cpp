@@ -104,7 +104,6 @@ class Robot : public frc::TimedRobot {
     }
   }
   
-  
 #endif
 
   void RobotInit() override {

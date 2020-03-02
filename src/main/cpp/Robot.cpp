@@ -83,7 +83,8 @@ class Robot : public frc::TimedRobot {
            cv::Rect boundRect = cv::boundingRect((*gp.GripPipeline::GetFindContoursOutput())[i]);
 // We actually want the top middle as the target center as this is half the goal
            double centerX = boundRect.x + (boundRect.width / 2);
-           double centerY = boundRect.y + (boundRect.height / 2);
+           //double centerY = boundRect.y + (boundRect.height / 2);
+           double centerY = boundRect.y;
 //           double centerY = boundRect.y;
            cv::drawContours(mat, *gp.GripPipeline::GetFindContoursOutput(), i, cv::Scalar(255, 0, 0), 3);
            rectangle(mat, cv::Point(centerX - 10, centerY - 10), cv::Point(centerX + 10, centerY + 10), cv::Scalar(0, 0, 255), 5);
@@ -95,24 +96,29 @@ class Robot : public frc::TimedRobot {
             frc::SmartDashboard::PutNumber("length x", lengthX);
              frc::SmartDashboard::PutNumber("center y", centerY);  
             frc::SmartDashboard::PutNumber("center x", centerX);
-           // double distance = 70.75 * ( 1 / tan(atan(sqrt(pow(lengthX, 2) + pow(lengthY, 2)) / 333.82 )));  98.25
+    //        double distance = 52 * ( 1 / tan(atan(sqrt(pow(lengthX, 2) + pow(lengthY, 2)) / 333.82 )));
+            double distance = 52 * ( 1 / tan(atan(sqrt(pow(lengthX, 2) + pow(lengthY, 2)) / 333.82 )));
+            double distance2 = sqrt(pow(52, 2) + distance);
+            double distance3 = 52 / sin(distance); 
+            frc::SmartDashboard::PutNumber("distance2", distance2);
+            frc::SmartDashboard::PutNumber("distance3", distance3);
     //       double triLength = sqrt((lengthX * lengthX) + (lengthY * lengthY));//(lengthX * lengthX) + (lengthY * lengthY)
-           double triLength = sqrt((centerX * centerX) + (centerY * centerY));//(lengthX * lengthX) + (lengthY * lengthY)
+    //       double triLength = sqrt((centerX * centerX) + (centerY * centerY));//(lengthX * lengthX) + (lengthY * lengthY)
      //      double triLength = sqrt((centerX * centerX) + (lengthY * lengthY));//(lengthX * lengthX) + (lengthY * lengthY)
-           double angle = atan(triLength / 333.82); //700
-           double distance = 70.25 * (1 / tan(angle));
+     //      double angle = atan(triLength / 333.82); //700
+     //      double distance = 52 * (1 / tan(angle));
            
-           frc::SmartDashboard::PutNumber("trilength", triLength);
-           frc::SmartDashboard::PutNumber("angle", angle);
+     //      frc::SmartDashboard::PutNumber("trilength", triLength);
+     //      frc::SmartDashboard::PutNumber("angle", angle);
             frc::SmartDashboard::PutNumber("distance", distance);
-            double distance2 = centerY * 51 / 133 + 70;
+    /*        double distance2 = centerY * 51 / 133 + 70;
             frc::SmartDashboard::PutNumber("distance2", distance2);
             double distance3 = ((70.25 * 333.82) / triLength);
             frc::SmartDashboard::PutNumber("distance3", distance3);
 
             double distance4 = 24480 / (2 * tan(0.48195) * boundRect.width);
             frc::SmartDashboard::PutNumber("distance 4", distance4);
-            frc::SmartDashboard::PutNumber("rectangle width", boundRect.width);
+            frc::SmartDashboard::PutNumber("rectangle width", boundRect.width); */
             turning = centerX;
         }
       outputStream.PutFrame(mat); 

@@ -98,6 +98,24 @@ void Robot::TeleopPeriodic()
   m_leftLeadMotor.Set(l_Y);
   m_rightLeadMotor.Set(l_Y);
 
+  if (m_OperatorStick.GetRawButton(9))
+  {m_leftLeadMotor.Set(-.4);
+   m_rightLeadMotor.Set(-.4);
+  } else if (m_OperatorStick.GetRawButton(10))
+  {m_leftLeadMotor.Set(-.5);
+  m_rightLeadMotor.Set(-.5);
+  } else if (m_OperatorStick.GetRawButton(11))
+  {m_leftLeadMotor.Set(-.75);
+    m_rightLeadMotor.Set(-.75);
+  } else if (m_OperatorStick.GetRawButton(12))
+  {
+    m_leftLeadMotor.Set(-1);
+    m_rightLeadMotor.Set(-1);
+  } else if (m_OperatorStick.GetRawButton(1))
+  {m_leftLeadMotor.Set(0);
+    m_rightLeadMotor.Set(0);
+  }
+
   frc::SmartDashboard::PutNumber("MtrPWR", l_Y);
   frc::SmartDashboard::PutNumber("MtrSPD_L", m_leftLeadMotor.Get());
   frc::SmartDashboard::PutNumber("MtrSPD_R", m_rightLeadMotor.Get());

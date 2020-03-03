@@ -10,6 +10,8 @@
 
 #include "Robot.h"
 
+int colorCount = 0;
+
 Robot::Robot() {}
 
 void Robot::AutonomousInit() {}
@@ -28,6 +30,7 @@ void Robot::RobotInit()
     m_colorMatcher.AddColorMatch(kGreenTarget);
     m_colorMatcher.AddColorMatch(kRedTarget);
     m_colorMatcher.AddColorMatch(kYellowTarget);
+    m_colorMatcher.AddColorMatch(Default);
 
   /**
      * The RestoreFactoryDefaults method can be used to reset the configuration parameters
@@ -81,6 +84,28 @@ void Robot::RobotInit()
 
 void Robot::TeleopPeriodic()
 {
+   gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
+    if((gameData.length() > 0) && (gameColor == nun))
+{
+  switch (gameData[0])
+  {
+    case 'B' :
+      gameColor = kRedTarget;
+      break;
+    case 'G' :
+      gameColor = kYellowTarget;
+      break;
+    case 'R' :
+      gameColor = kBlueTarget;
+      break;
+    case 'Y' :
+      gameColor = kGreenTarget;
+      break;
+    default :
+      gameColor = Default;
+      break;
+  }
+}
 
   // Drive with arcade style
   m_robotDrive.ArcadeDrive(-m_stick.GetY(), m_stick.GetX());
@@ -142,7 +167,7 @@ void Robot::TeleopPeriodic()
     int colorCounter = 0;
     NidecValue = .25;
     motor.Set(NidecValue);
-    while (colorCounter < 1){
+    while (colorCounter < 1 && !(m_stick.GetRawButton(1))){
     frc::Color detectedColor = m_colorSensor.GetColor();
 
     /**
@@ -174,7 +199,7 @@ void Robot::TeleopPeriodic()
 
 if (m_stick.GetRawButton(7)){
       //run motor until green is seen 9 times
-    int colorCount = 0;
+    
     int colorCount2; 
   
     NidecValue=.25;
@@ -190,7 +215,7 @@ if (m_stick.GetRawButton(7)){
     frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);  
     frc::Color startingColor = matchedColor;
   
-     while (colorCount < 9) {
+     while (colorCount < 9 && !(m_stick.GetRawButton(1))) {
       
         /**
      * The method GetColor() returns a normalized color value from the sensor and can be
@@ -237,7 +262,7 @@ if (m_stick.GetRawButton(7)){
        if (matchedColor == startingColor) {
          if (colorCount < 8){
          colorCount2 = 0;
-         while (colorCount2 < 1) {
+         while (colorCount2 < 1 && !(m_stick.GetRawButton(1))) {
         /**
      * The method GetColor() returns a normalized color value from the sensor and can be
      * useful if outputting the color to an RGB LED or similar. To

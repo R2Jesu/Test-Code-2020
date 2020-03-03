@@ -15,6 +15,7 @@
 #include <frc/NidecBrushless.h>
 #include "rev/ColorSensorV3.h"
 #include "rev/ColorMatch.h"
+#include "frc/DriverStation.h"
 
 
 class Robot : public frc::TimedRobot
@@ -74,6 +75,7 @@ private:
   static constexpr frc::Color kRedTarget = frc::Color(0.52, 0.35, 0.13);
   static constexpr frc::Color kYellowTarget = frc::Color(0.31, 0.56, 0.12);
   static constexpr frc::Color nun = frc::Color(0,0,0);
+  static constexpr frc::Color Default = frc::Color(1,1,1);
 
    //color wheel motor
     double NidecValue=0;

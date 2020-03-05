@@ -70,10 +70,10 @@ private:
   static constexpr auto i2cPort = frc::I2C::Port::kOnboard;
    rev::ColorSensorV3 m_colorSensor{i2cPort};
     rev::ColorMatch m_colorMatcher;
-     static constexpr frc::Color kBlueTarget = frc::Color(0.12, 0.42, 0.45);
-  static constexpr frc::Color kGreenTarget = frc::Color(0.16, 0.58, 0.25);
-  static constexpr frc::Color kRedTarget = frc::Color(0.52, 0.35, 0.13);
-  static constexpr frc::Color kYellowTarget = frc::Color(0.31, 0.56, 0.12);
+     static constexpr frc::Color kBlueTarget = frc::Color(0.125, 0.421, 0.454);
+  static constexpr frc::Color kGreenTarget = frc::Color(0.194, 0.582, 0.223);
+  static constexpr frc::Color kRedTarget = frc::Color(0.483, 0.387, 0.13);
+  static constexpr frc::Color kYellowTarget = frc::Color(0.312, 0.564, 0.124);
   static constexpr frc::Color nun = frc::Color(0,0,0);
   static constexpr frc::Color Default = frc::Color(1,1,1);
 

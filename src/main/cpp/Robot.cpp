@@ -131,8 +131,8 @@ void Robot::TeleopPeriodic()
   m_rightLeadMotor.Set(l_Y);
 
   if (m_OperatorStick.GetRawButton(9))
-  {m_leftLeadMotor.Set(-.4);
-   m_rightLeadMotor.Set(-.4);
+  {m_leftLeadMotor.Set(-.3);
+   m_rightLeadMotor.Set(-.3);
   } else if (m_OperatorStick.GetRawButton(10))
   {m_leftLeadMotor.Set(-.5);
   m_rightLeadMotor.Set(-.5);

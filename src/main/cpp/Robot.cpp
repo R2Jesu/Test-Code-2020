@@ -45,12 +45,13 @@ class Robot : public frc::TimedRobot {
     // Set the resolution
     camera.SetResolution(640, 480);
     camera.SetExposureManual(5);
+    camera.SetFPS(15);
 
     // Get a CvSink. This will capture Mats from the Camera
     cs::CvSink cvSink = frc::CameraServer::GetInstance()->GetVideo();
     // Setup a CvSource. This will send images back to the Dashboard
     cs::CvSource outputStream =
-        frc::CameraServer::GetInstance()->PutVideo("Rectangle", 640, 480);
+    frc::CameraServer::GetInstance()->PutVideo("Rectangle", 640, 480);
 
     // Mats are very memory expensive. Lets reuse this Mat.
     cv::Mat mat;
@@ -79,30 +80,38 @@ class Robot : public frc::TimedRobot {
            {
               continue;
            }
-//           printf("Something else: %f\n", contourArea);
+
            cv::Rect boundRect = cv::boundingRect((*gp.GripPipeline::GetFindContoursOutput())[i]);
-// We actually want the top middle as the target center as this is half the goal
            double centerX = boundRect.x + (boundRect.width / 2);
+           // We actually want the top middle as the target center as this is only half the goal
            //double centerY = boundRect.y + (boundRect.height / 2);
            double centerY = boundRect.y;
-           cv::InputArray ourPoints = cv::InputArray(centerX, centerY);
-//           double centerY = boundRect.y;
+           std::vector<cv::Point2d> ourPointVec;
+           std::vector<cv::Point2d> undistortedPointVec;
+
+           ourPointVec.push_back(cv::Point2d(centerX, centerY));
+
            cv::drawContours(mat, *gp.GripPipeline::GetFindContoursOutput(), i, cv::Scalar(255, 0, 0), 3);
            rectangle(mat, cv::Point(centerX - 10, centerY - 10), cv::Point(centerX + 10, centerY + 10), cv::Scalar(0, 0, 255), 5);
-         
-          cv::undistortPoints();
+           cv::Mat camMat = (cv::Mat1d(3,3) << 667.0055536838427, 0.0, 342.42511872039944, 0.0, 664.985144080759, 237.32436945681167, 0.0, 0.0, 1.0);
+           cv::Mat distortion = (cv::Mat1d(1,5) << 0.15703749174667256, -1.134926997716282, -0.0033293254944312435, 0.0016418473011026258, 2.1006981908434668);
+           cv::undistortPoints(ourPointVec, undistortedPointVec, camMat, distortion);
+           cv::Point2d undistortedPoint = undistortedPointVec[0];
            
-            double lengthX = (centerX - 320.00) / 333.82;
-            double lengthY = -(centerY - 240.00) / 333.82;
-            frc::SmartDashboard::PutNumber("length y", lengthY);  
-            frc::SmartDashboard::PutNumber("length x", lengthX);
-            frc::SmartDashboard::PutNumber("center y", centerY);  
-            frc::SmartDashboard::PutNumber("center x", centerX);
+            //double lengthX = (centerX - 320.00) / 333.82;
+            //double lengthY = -(centerY - 240.00) / 333.82;
+            double lengthX = (undistortedPoint.x - camMat.at<double>(0, 2)) / camMat.at<double>(0, 0);
+            double lengthY = -(undistortedPoint.y - camMat.at<double>(1, 2)) / camMat.at<double>(1, 1);
+            //frc::SmartDashboard::PutNumber("length y", lengthY);  
+            //frc::SmartDashboard::PutNumber("length x", lengthX);
+            //frc::SmartDashboard::PutNumber("center y", centerY);  
+            //frc::SmartDashboard::PutNumber("center x", centerX);
   
             double ax = atan2(lengthX, 1.0);
             double ay = atan2(lengthY * cos(ax), 1.0);
-            double iDISTANCE = (98.25 - 28.00) / tan(0.139626 + ay);
-            frc::SmartDashboard::PutNumber("DISTANCE", iDISTANCE);
+            //You need to remasure the camera angle and set the radians below replacing 0.139626 with whatever
+            double ourDist = (98.25 - 28.00) / tan(0.139626 + ay);
+            frc::SmartDashboard::PutNumber("DISTANCE", ourDist);
             turning = centerX;
 
         }

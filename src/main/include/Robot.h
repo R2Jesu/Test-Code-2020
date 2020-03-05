@@ -17,6 +17,8 @@
 #include "rev/ColorMatch.h"
 #include "frc/DriverStation.h"
 
+#include <frc/Compressor.h> 
+#include <frc/Solenoid.h>
 
 class Robot : public frc::TimedRobot
 {
@@ -65,6 +67,10 @@ private:
 
   // Spare Motor Controller
   rev::SparkMax m_SpareMotor{2};
+
+  // Solenoids 
+  frc::Compressor compressorObject;
+  frc::Solenoid ballPopper{0} ; 
 
 //color sensor
   static constexpr auto i2cPort = frc::I2C::Port::kOnboard;

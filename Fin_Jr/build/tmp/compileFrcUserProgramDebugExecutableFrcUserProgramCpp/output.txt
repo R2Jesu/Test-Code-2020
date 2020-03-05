@@ -1,0 +1,4 @@
+See file:///C:/Git/Test-Code-2020/Fin_Jr/build/tmp/compileFrcUserProgramDebugExecutableFrcUserProgramCpp/output.txt for all output for compileFrcUserProgramDebugExecutableFrcUserProgramCpp.
+compiling Robot.cpp successful.
+
+Finished compileFrcUserProgramDebugExecutableFrcUserProgramCpp, see full log file:///C:/Git/Test-Code-2020/Fin_Jr/build/tmp/compileFrcUserProgramDebugExecutableFrcUserProgramCpp/output.txt.

@@ -1,0 +1,398 @@
+[
+  {
+    "name": "linuxathena",
+    "architecture": "arm-v7",
+    "operatingSystem": "linux",
+    "flavor": "default",
+    "buildType": "debug",
+    "cppPath": "C:\\Users\\Public\\wpilib\\2020\\roborio\\bin\\arm-frc2020-linux-gnueabi-g++.exe",
+    "cPath": "C:\\Users\\Public\\wpilib\\2020\\roborio\\bin\\arm-frc2020-linux-gnueabi-gcc.exe",
+    "msvc": false,
+    "gcc": true,
+    "systemCppMacros": [],
+    "systemCppArgs": [],
+    "systemCMacros": [],
+    "systemCArgs": [],
+    "allLibFiles": [
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\7f84587f5c6fc41877ec1921842b0aa5\\wpilibc-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\a368291719c0d577e39fba4450178a10\\ntcore-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\6fe26b9abfbd98c3a6f7ae6896f1a837\\hal-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\0f548c8e84763fda9f19a71edeb39a53\\wpiutil-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\f706b5d5cd4bcea038ba587a522740f2\\chipobject-2020.10.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\5534c65e0992107bcb0c55bf86146863\\netcomm-2020.10.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\74bb0c258eb3df4b65691e2162a6f51e\\visa-2020.10.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\158c05da82b9f7b2e026f053439e8064\\cameraserver-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\b63b548be79dc5db361c2e6a87518319\\cscore-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\eed3931469ba7efc2e953f8f3443a673\\opencv-cpp-3.4.7-2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\8a5a6bb337c5b8e2a84ceac01c3c2259\\SparkMax-cpp-1.5.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\c4c6bbaecccda1163e676653c3ec953c\\SparkMax-driver-1.5.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\114452112edb5fc80c604b4f5054814f\\wpilibOldCommands-cpp-2020.3.2-headers\\",
+      "C:\\Git\\Test-Code-2020\\Fin_Jr\\src\\main\\include\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\bcca9b4fd16ede3ca496497fde72764a\\wpilibc-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\0fb05048ef1d511661146ba98f2d33be\\ntcore-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\db0f45cc6592d8a5a7185ca580642d0a\\hal-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\08f36ec35e9e334ff136ff195d49d5f1\\wpiutil-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\2d77cde5c1927280fb124d385f615fd1\\cameraserver-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\b46c0e6bf313c24c7490490b25ef7ed1\\cscore-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\6440cf0dee8de0741badf5383075deb7\\opencv-cpp-3.4.7-2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\a1246fc76bc3f47608f954fd1608b38b\\wpilibOldCommands-cpp-2020.3.2-sources\\"
+    ],
+    "allLibSources": [
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\bcca9b4fd16ede3ca496497fde72764a\\wpilibc-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\0fb05048ef1d511661146ba98f2d33be\\ntcore-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\db0f45cc6592d8a5a7185ca580642d0a\\hal-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\08f36ec35e9e334ff136ff195d49d5f1\\wpiutil-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\2d77cde5c1927280fb124d385f615fd1\\cameraserver-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\b46c0e6bf313c24c7490490b25ef7ed1\\cscore-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\6440cf0dee8de0741badf5383075deb7\\opencv-cpp-3.4.7-2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\a1246fc76bc3f47608f954fd1608b38b\\wpilibOldCommands-cpp-2020.3.2-sources\\"
+    ],
+    "allLibHeaders": [
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\7f84587f5c6fc41877ec1921842b0aa5\\wpilibc-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\a368291719c0d577e39fba4450178a10\\ntcore-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\6fe26b9abfbd98c3a6f7ae6896f1a837\\hal-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\0f548c8e84763fda9f19a71edeb39a53\\wpiutil-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\f706b5d5cd4bcea038ba587a522740f2\\chipobject-2020.10.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\5534c65e0992107bcb0c55bf86146863\\netcomm-2020.10.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\74bb0c258eb3df4b65691e2162a6f51e\\visa-2020.10.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\158c05da82b9f7b2e026f053439e8064\\cameraserver-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\b63b548be79dc5db361c2e6a87518319\\cscore-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\eed3931469ba7efc2e953f8f3443a673\\opencv-cpp-3.4.7-2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\8a5a6bb337c5b8e2a84ceac01c3c2259\\SparkMax-cpp-1.5.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\c4c6bbaecccda1163e676653c3ec953c\\SparkMax-driver-1.5.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\114452112edb5fc80c604b4f5054814f\\wpilibOldCommands-cpp-2020.3.2-headers\\",
+      "C:\\Git\\Test-Code-2020\\Fin_Jr\\src\\main\\include\\"
+    ],
+    "binaries": [
+      {
+        "componentName": "frcUserProgram",
+        "sourceSets": [
+          {
+            "source": {
+              "srcDirs": [
+                "C:\\Git\\Test-Code-2020\\Fin_Jr\\src\\main\\cpp\\"
+              ],
+              "includes": [
+                "**/*.cpp",
+                "**/*.cc"
+              ],
+              "excludes": []
+            },
+            "exportedHeaders": {
+              "srcDirs": [
+                "C:\\Git\\Test-Code-2020\\Fin_Jr\\src\\main\\include\\"
+              ],
+              "includes": [
+                "**/*.cpp",
+                "**/*.cc"
+              ],
+              "excludes": []
+            },
+            "cpp": true,
+            "args": [
+              "-Wall",
+              "-Wextra",
+              "-std=c++17",
+              "-Wformat=2",
+              "-pedantic",
+              "-Wno-psabi",
+              "-g",
+              "-Wno-unused-parameter",
+              "-Wno-error=deprecated-declarations",
+              "-fPIC",
+              "-rdynamic",
+              "-pthread",
+              "-Og"
+            ],
+            "macros": []
+          }
+        ],
+        "libHeaders": [
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\7f84587f5c6fc41877ec1921842b0aa5\\wpilibc-cpp-2020.3.2-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\a368291719c0d577e39fba4450178a10\\ntcore-cpp-2020.3.2-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\6fe26b9abfbd98c3a6f7ae6896f1a837\\hal-cpp-2020.3.2-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\0f548c8e84763fda9f19a71edeb39a53\\wpiutil-cpp-2020.3.2-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\f706b5d5cd4bcea038ba587a522740f2\\chipobject-2020.10.1-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\5534c65e0992107bcb0c55bf86146863\\netcomm-2020.10.1-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\74bb0c258eb3df4b65691e2162a6f51e\\visa-2020.10.1-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\158c05da82b9f7b2e026f053439e8064\\cameraserver-cpp-2020.3.2-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\b63b548be79dc5db361c2e6a87518319\\cscore-cpp-2020.3.2-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\eed3931469ba7efc2e953f8f3443a673\\opencv-cpp-3.4.7-2-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\8a5a6bb337c5b8e2a84ceac01c3c2259\\SparkMax-cpp-1.5.1-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\c4c6bbaecccda1163e676653c3ec953c\\SparkMax-driver-1.5.1-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\114452112edb5fc80c604b4f5054814f\\wpilibOldCommands-cpp-2020.3.2-headers\\",
+          "C:\\Git\\Test-Code-2020\\Fin_Jr\\src\\main\\include\\"
+        ],
+        "sharedLibrary": false,
+        "executable": true
+      }
+    ],
+    "sourceBinaries": [
+      {
+        "source": {
+          "srcDirs": [
+            "C:\\Git\\Test-Code-2020\\Fin_Jr\\src\\main\\cpp\\"
+          ],
+          "includes": [
+            "**/*.cpp",
+            "**/*.cc"
+          ],
+          "excludes": []
+        },
+        "componentName": "frcUserProgram",
+        "cpp": true,
+        "args": [
+          "-Wall",
+          "-Wextra",
+          "-std=c++17",
+          "-Wformat=2",
+          "-pedantic",
+          "-Wno-psabi",
+          "-g",
+          "-Wno-unused-parameter",
+          "-Wno-error=deprecated-declarations",
+          "-fPIC",
+          "-rdynamic",
+          "-pthread",
+          "-Og"
+        ],
+        "macros": [],
+        "sharedLibrary": false,
+        "executable": true
+      },
+      {
+        "source": {
+          "srcDirs": [
+            "C:\\Git\\Test-Code-2020\\Fin_Jr\\src\\main\\include\\"
+          ],
+          "includes": [
+            "**/*.cpp",
+            "**/*.cc"
+          ],
+          "excludes": []
+        },
+        "componentName": "frcUserProgram",
+        "cpp": true,
+        "args": [
+          "-Wall",
+          "-Wextra",
+          "-std=c++17",
+          "-Wformat=2",
+          "-pedantic",
+          "-Wno-psabi",
+          "-g",
+          "-Wno-unused-parameter",
+          "-Wno-error=deprecated-declarations",
+          "-fPIC",
+          "-rdynamic",
+          "-pthread",
+          "-Og"
+        ],
+        "macros": [],
+        "sharedLibrary": false,
+        "executable": true
+      }
+    ],
+    "nameBinaryMap": {
+      "frcUserProgram": 0
+    }
+  },
+  {
+    "name": "linuxathena",
+    "architecture": "arm-v7",
+    "operatingSystem": "linux",
+    "flavor": "default",
+    "buildType": "release",
+    "cppPath": "C:\\Users\\Public\\wpilib\\2020\\roborio\\bin\\arm-frc2020-linux-gnueabi-g++.exe",
+    "cPath": "C:\\Users\\Public\\wpilib\\2020\\roborio\\bin\\arm-frc2020-linux-gnueabi-gcc.exe",
+    "msvc": false,
+    "gcc": true,
+    "systemCppMacros": [],
+    "systemCppArgs": [],
+    "systemCMacros": [],
+    "systemCArgs": [],
+    "allLibFiles": [
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\7f84587f5c6fc41877ec1921842b0aa5\\wpilibc-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\a368291719c0d577e39fba4450178a10\\ntcore-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\6fe26b9abfbd98c3a6f7ae6896f1a837\\hal-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\0f548c8e84763fda9f19a71edeb39a53\\wpiutil-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\f706b5d5cd4bcea038ba587a522740f2\\chipobject-2020.10.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\5534c65e0992107bcb0c55bf86146863\\netcomm-2020.10.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\74bb0c258eb3df4b65691e2162a6f51e\\visa-2020.10.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\158c05da82b9f7b2e026f053439e8064\\cameraserver-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\b63b548be79dc5db361c2e6a87518319\\cscore-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\eed3931469ba7efc2e953f8f3443a673\\opencv-cpp-3.4.7-2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\8a5a6bb337c5b8e2a84ceac01c3c2259\\SparkMax-cpp-1.5.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\c4c6bbaecccda1163e676653c3ec953c\\SparkMax-driver-1.5.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\114452112edb5fc80c604b4f5054814f\\wpilibOldCommands-cpp-2020.3.2-headers\\",
+      "C:\\Git\\Test-Code-2020\\Fin_Jr\\src\\main\\include\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\bcca9b4fd16ede3ca496497fde72764a\\wpilibc-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\0fb05048ef1d511661146ba98f2d33be\\ntcore-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\db0f45cc6592d8a5a7185ca580642d0a\\hal-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\08f36ec35e9e334ff136ff195d49d5f1\\wpiutil-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\2d77cde5c1927280fb124d385f615fd1\\cameraserver-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\b46c0e6bf313c24c7490490b25ef7ed1\\cscore-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\6440cf0dee8de0741badf5383075deb7\\opencv-cpp-3.4.7-2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\a1246fc76bc3f47608f954fd1608b38b\\wpilibOldCommands-cpp-2020.3.2-sources\\"
+    ],
+    "allLibSources": [
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\bcca9b4fd16ede3ca496497fde72764a\\wpilibc-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\0fb05048ef1d511661146ba98f2d33be\\ntcore-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\db0f45cc6592d8a5a7185ca580642d0a\\hal-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\08f36ec35e9e334ff136ff195d49d5f1\\wpiutil-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\2d77cde5c1927280fb124d385f615fd1\\cameraserver-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\b46c0e6bf313c24c7490490b25ef7ed1\\cscore-cpp-2020.3.2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\6440cf0dee8de0741badf5383075deb7\\opencv-cpp-3.4.7-2-sources\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\a1246fc76bc3f47608f954fd1608b38b\\wpilibOldCommands-cpp-2020.3.2-sources\\"
+    ],
+    "allLibHeaders": [
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\7f84587f5c6fc41877ec1921842b0aa5\\wpilibc-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\a368291719c0d577e39fba4450178a10\\ntcore-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\6fe26b9abfbd98c3a6f7ae6896f1a837\\hal-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\0f548c8e84763fda9f19a71edeb39a53\\wpiutil-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\f706b5d5cd4bcea038ba587a522740f2\\chipobject-2020.10.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\5534c65e0992107bcb0c55bf86146863\\netcomm-2020.10.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\74bb0c258eb3df4b65691e2162a6f51e\\visa-2020.10.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\158c05da82b9f7b2e026f053439e8064\\cameraserver-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\b63b548be79dc5db361c2e6a87518319\\cscore-cpp-2020.3.2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\eed3931469ba7efc2e953f8f3443a673\\opencv-cpp-3.4.7-2-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\8a5a6bb337c5b8e2a84ceac01c3c2259\\SparkMax-cpp-1.5.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\c4c6bbaecccda1163e676653c3ec953c\\SparkMax-driver-1.5.1-headers\\",
+      "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\114452112edb5fc80c604b4f5054814f\\wpilibOldCommands-cpp-2020.3.2-headers\\",
+      "C:\\Git\\Test-Code-2020\\Fin_Jr\\src\\main\\include\\"
+    ],
+    "binaries": [
+      {
+        "componentName": "frcUserProgram",
+        "sourceSets": [
+          {
+            "source": {
+              "srcDirs": [
+                "C:\\Git\\Test-Code-2020\\Fin_Jr\\src\\main\\cpp\\"
+              ],
+              "includes": [
+                "**/*.cpp",
+                "**/*.cc"
+              ],
+              "excludes": []
+            },
+            "exportedHeaders": {
+              "srcDirs": [
+                "C:\\Git\\Test-Code-2020\\Fin_Jr\\src\\main\\include\\"
+              ],
+              "includes": [
+                "**/*.cpp",
+                "**/*.cc"
+              ],
+              "excludes": []
+            },
+            "cpp": true,
+            "args": [
+              "-Wall",
+              "-Wextra",
+              "-std=c++17",
+              "-Wformat=2",
+              "-pedantic",
+              "-Wno-psabi",
+              "-g",
+              "-Wno-unused-parameter",
+              "-Wno-error=deprecated-declarations",
+              "-fPIC",
+              "-rdynamic",
+              "-pthread",
+              "-O2"
+            ],
+            "macros": []
+          }
+        ],
+        "libHeaders": [
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\7f84587f5c6fc41877ec1921842b0aa5\\wpilibc-cpp-2020.3.2-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\a368291719c0d577e39fba4450178a10\\ntcore-cpp-2020.3.2-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\6fe26b9abfbd98c3a6f7ae6896f1a837\\hal-cpp-2020.3.2-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\0f548c8e84763fda9f19a71edeb39a53\\wpiutil-cpp-2020.3.2-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\f706b5d5cd4bcea038ba587a522740f2\\chipobject-2020.10.1-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\5534c65e0992107bcb0c55bf86146863\\netcomm-2020.10.1-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\74bb0c258eb3df4b65691e2162a6f51e\\visa-2020.10.1-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\158c05da82b9f7b2e026f053439e8064\\cameraserver-cpp-2020.3.2-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\b63b548be79dc5db361c2e6a87518319\\cscore-cpp-2020.3.2-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\eed3931469ba7efc2e953f8f3443a673\\opencv-cpp-3.4.7-2-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\8a5a6bb337c5b8e2a84ceac01c3c2259\\SparkMax-cpp-1.5.1-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\c4c6bbaecccda1163e676653c3ec953c\\SparkMax-driver-1.5.1-headers\\",
+          "C:\\Users\\21NOONAK\\.gradle\\caches\\transforms-2\\files-2.1\\114452112edb5fc80c604b4f5054814f\\wpilibOldCommands-cpp-2020.3.2-headers\\",
+          "C:\\Git\\Test-Code-2020\\Fin_Jr\\src\\main\\include\\"
+        ],
+        "sharedLibrary": false,
+        "executable": true
+      }
+    ],
+    "sourceBinaries": [
+      {
+        "source": {
+          "srcDirs": [
+            "C:\\Git\\Test-Code-2020\\Fin_Jr\\src\\main\\cpp\\"
+          ],
+          "includes": [
+            "**/*.cpp",
+            "**/*.cc"
+          ],
+          "excludes": []
+        },
+        "componentName": "frcUserProgram",
+        "cpp": true,
+        "args": [
+          "-Wall",
+          "-Wextra",
+          "-std=c++17",
+          "-Wformat=2",
+          "-pedantic",
+          "-Wno-psabi",
+          "-g",
+          "-Wno-unused-parameter",
+          "-Wno-error=deprecated-declarations",
+          "-fPIC",
+          "-rdynamic",
+          "-pthread",
+          "-O2"
+        ],
+        "macros": [],
+        "sharedLibrary": false,
+        "executable": true
+      },
+      {
+        "source": {
+          "srcDirs": [
+            "C:\\Git\\Test-Code-2020\\Fin_Jr\\src\\main\\include\\"
+          ],
+          "includes": [
+            "**/*.cpp",
+            "**/*.cc"
+          ],
+          "excludes": []
+        },
+        "componentName": "frcUserProgram",
+        "cpp": true,
+        "args": [
+          "-Wall",
+          "-Wextra",
+          "-std=c++17",
+          "-Wformat=2",
+          "-pedantic",
+          "-Wno-psabi",
+          "-g",
+          "-Wno-unused-parameter",
+          "-Wno-error=deprecated-declarations",
+          "-fPIC",
+          "-rdynamic",
+          "-pthread",
+          "-O2"
+        ],
+        "macros": [],
+        "sharedLibrary": false,
+        "executable": true
+      }
+    ],
+    "nameBinaryMap": {
+      "frcUserProgram": 0
+    }
+  }
+]

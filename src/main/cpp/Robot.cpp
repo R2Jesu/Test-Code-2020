@@ -80,6 +80,13 @@ void Robot::RobotInit()
      */
   m_encL.SetMinRate(1.0);
   m_encR.SetMinRate(1.0);
+
+#if CORJESU_TURNON_PNEUMATICS
+   // Set Compressor Object for automatic closed loop control
+   compressorObject.SetClosedLoopControl(true);
+   // Set Solenoids to iniital stat
+   ballPopper.Set(false);
+#endif
 }
 
 void Robot::TeleopPeriodic()
@@ -318,6 +325,11 @@ if (m_stick.GetRawButton(7)){
        //NidecValue=.25;
        //motor.Set(NidecValue);
     }
+   
+      if (m_OperatorStick.GetRawButton(8))
+      ballPopper.Set(true);      
+   else
+      ballPopper.Set(false);  
     }
 
 

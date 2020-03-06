@@ -16,7 +16,7 @@
 #include "rev/ColorSensorV3.h"
 #include "rev/ColorMatch.h"
 #include "frc/DriverStation.h"
-
+#include <ctre/Phoenix.h>
 #include <frc/Compressor.h> 
 #include <frc/Solenoid.h>
 
@@ -64,6 +64,7 @@ private:
   // Shooter subsystem
   rev::CANSparkMax m_leftLeadMotor{1, rev::CANSparkMax::MotorType::kBrushless};
   rev::CANSparkMax m_rightLeadMotor{3, rev::CANSparkMax::MotorType::kBrushless};
+  WPI_TalonSRX snowMotor{2};
 
   // Spare Motor Controller
   rev::SparkMax m_SpareMotor{2};

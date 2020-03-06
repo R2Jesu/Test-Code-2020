@@ -134,8 +134,8 @@ void Robot::TeleopPeriodic()
   {m_leftLeadMotor.Set(-.3);
    m_rightLeadMotor.Set(-.3);
   } else if (m_OperatorStick.GetRawButton(10))
-  {m_leftLeadMotor.Set(-.5);
-  m_rightLeadMotor.Set(-.5);
+  {m_leftLeadMotor.Set(-.42);
+  m_rightLeadMotor.Set(-.42);
   } else if (m_OperatorStick.GetRawButton(11))
   {m_leftLeadMotor.Set(-.75);
     m_rightLeadMotor.Set(-.75);
@@ -147,6 +147,14 @@ void Robot::TeleopPeriodic()
   {m_leftLeadMotor.Set(0);
     m_rightLeadMotor.Set(0);
   }
+
+if (m_OperatorStick.GetRawButton(5))
+{
+snowMotor.Set(-.5);
+} else 
+{
+  snowMotor.Set(0);
+}
 
   frc::SmartDashboard::PutNumber("MtrPWR", l_Y);
   frc::SmartDashboard::PutNumber("MtrSPD_L", m_leftLeadMotor.Get());

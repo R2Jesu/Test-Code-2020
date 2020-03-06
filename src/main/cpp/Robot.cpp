@@ -81,7 +81,7 @@ printf("Before while\n");
              printf("continue for this reason\n");
               continue;
            }
-
+          printf("here\n");
            cv::Rect boundRect = cv::boundingRect((*gp.GripPipeline::GetFindContoursOutput())[i]);
            double centerX = boundRect.x + (boundRect.width / 2);
            // We actually want the top middle as the target center as this is only half the goal
@@ -93,12 +93,16 @@ printf("Before while\n");
           // ourPointVec.push_back(cv::Point2d(centerX, centerY));
           cv::Point2d ourPoint = (cv::Point2d(centerX, centerY));
           ourPointVec[0] = ourPoint;
+          printf("have our point\n");
 
            cv::drawContours(mat, *gp.GripPipeline::GetFindContoursOutput(), i, cv::Scalar(255, 0, 0), 3);
            rectangle(mat, cv::Point(centerX - 10, centerY - 10), cv::Point(centerX + 10, centerY + 10), cv::Scalar(0, 0, 255), 5);
+           printf("rectabgle and contours\n");
            cv::Mat camMat = (cv::Mat1d(3,3) << 667.0055536838427, 0.0, 342.42511872039944, 0.0, 664.985144080759, 237.32436945681167, 0.0, 0.0, 1.0);
            cv::Mat distortion = (cv::Mat1d(1,5) << 0.15703749174667256, -1.134926997716282, -0.0033293254944312435, 0.0016418473011026258, 2.1006981908434668);
+           printf("before undistort\n");
            cv::undistortPoints(ourPointVec, undistortedPointVec, camMat, distortion);
+           printf("after undistort\n");
            cv::Point2d undistortedPoint = undistortedPointVec[0];
            
             //double lengthX = (centerX - 320.00) / 333.82;

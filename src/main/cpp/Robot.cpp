@@ -55,7 +55,7 @@ class Robot : public frc::TimedRobot {
     // Mats are very memory expensive. Lets reuse this Mat.
     cv::Mat mat;
     grip::GripPipeline gp;
-printf("Before while\n");
+    printf("Before while\n");
     while (true) {
       // Tell the CvSink to grab a frame from the camera and
       // put it
@@ -89,10 +89,15 @@ printf("Before while\n");
            double centerY = boundRect.y;
            std::vector<cv::Point2d> ourPointVec;
            std::vector<cv::Point2d> undistortedPointVec;
+           printf("there\n");
 
-          // ourPointVec.push_back(cv::Point2d(centerX, centerY));
-          cv::Point2d ourPoint = (cv::Point2d(centerX, centerY));
-          ourPointVec[0] = ourPoint;
+          ourPointVec.push_back(cv::Point2d(centerX, centerY));
+          printf("this\n");
+          cv::Point2d ourPoint = ourPointVec[0];
+            frc::SmartDashboard::PutNumber("our x", ourPoint.x);  
+            frc::SmartDashboard::PutNumber("our y", ourPoint.y);
+          printf("that\n");
+          //ourPointVec[0] = ourPoint;
           printf("have our point\n");
 
            cv::drawContours(mat, *gp.GripPipeline::GetFindContoursOutput(), i, cv::Scalar(255, 0, 0), 3);

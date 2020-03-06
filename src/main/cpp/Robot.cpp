@@ -21,10 +21,10 @@
 #include <frc/drive/DifferentialDrive.h>
 
 
-frc::PWMVictorSPX m_left{1};
-  frc::PWMVictorSPX m_right{0};
+//frc::PWMVictorSPX m_left{1};
+//  frc::PWMVictorSPX m_right{0};
 
-frc::DifferentialDrive m_robotDrive{m_left, m_right};
+//frc::DifferentialDrive m_robotDrive{m_left, m_right};
 
 
 double turning;
@@ -40,23 +40,22 @@ class Robot : public frc::TimedRobot {
  private:
   static void VisionThread() {
     // Get the USB camera from CameraServer
-    cs::UsbCamera camera =
-        frc::CameraServer::GetInstance()->StartAutomaticCapture();
+    printf("Start\n");
+    cs::UsbCamera camera = frc::CameraServer::GetInstance()->StartAutomaticCapture();
     // Set the resolution
     camera.SetResolution(640, 480);
     camera.SetExposureManual(5);
-    camera.SetFPS(15);
+    //camera.SetFPS(15);
 
     // Get a CvSink. This will capture Mats from the Camera
     cs::CvSink cvSink = frc::CameraServer::GetInstance()->GetVideo();
     // Setup a CvSource. This will send images back to the Dashboard
-    cs::CvSource outputStream =
-    frc::CameraServer::GetInstance()->PutVideo("Rectangle", 640, 480);
+    cs::CvSource outputStream = frc::CameraServer::GetInstance()->PutVideo("Rectangle", 640, 480);
 
     // Mats are very memory expensive. Lets reuse this Mat.
     cv::Mat mat;
     grip::GripPipeline gp;
-
+printf("Before while\n");
     while (true) {
       // Tell the CvSink to grab a frame from the camera and
       // put it
@@ -66,6 +65,7 @@ class Robot : public frc::TimedRobot {
         // Send the output the error.
         outputStream.NotifyError(cvSink.GetError());
         // skip the rest of the current iteration
+        printf("have to continue\n");
         continue;
       }
       // Put a rectangle on the image
@@ -78,6 +78,7 @@ class Robot : public frc::TimedRobot {
 		   float contourArea = cv::contourArea((*gp.GripPipeline::GetFindContoursOutput())[i]);
           if (contourArea > 100000 || contourArea < 100)
            {
+             printf("continue for this reason\n");
               continue;
            }
 
@@ -89,7 +90,9 @@ class Robot : public frc::TimedRobot {
            std::vector<cv::Point2d> ourPointVec;
            std::vector<cv::Point2d> undistortedPointVec;
 
-           ourPointVec.push_back(cv::Point2d(centerX, centerY));
+          // ourPointVec.push_back(cv::Point2d(centerX, centerY));
+          cv::Point2d ourPoint = (cv::Point2d(centerX, centerY));
+          ourPointVec[0] = ourPoint;
 
            cv::drawContours(mat, *gp.GripPipeline::GetFindContoursOutput(), i, cv::Scalar(255, 0, 0), 3);
            rectangle(mat, cv::Point(centerX - 10, centerY - 10), cv::Point(centerX + 10, centerY + 10), cv::Scalar(0, 0, 255), 5);
@@ -100,12 +103,14 @@ class Robot : public frc::TimedRobot {
            
             //double lengthX = (centerX - 320.00) / 333.82;
             //double lengthY = -(centerY - 240.00) / 333.82;
+            frc::SmartDashboard::PutNumber("undist x", undistortedPoint.x);  
+            frc::SmartDashboard::PutNumber("undist y", undistortedPoint.y);
             double lengthX = (undistortedPoint.x - camMat.at<double>(0, 2)) / camMat.at<double>(0, 0);
             double lengthY = -(undistortedPoint.y - camMat.at<double>(1, 2)) / camMat.at<double>(1, 1);
-            //frc::SmartDashboard::PutNumber("length y", lengthY);  
-            //frc::SmartDashboard::PutNumber("length x", lengthX);
-            //frc::SmartDashboard::PutNumber("center y", centerY);  
-            //frc::SmartDashboard::PutNumber("center x", centerX);
+            frc::SmartDashboard::PutNumber("length y", lengthY);  
+            frc::SmartDashboard::PutNumber("length x", lengthX);
+            frc::SmartDashboard::PutNumber("center y", centerY);  
+            frc::SmartDashboard::PutNumber("center x", centerX);
   
             double ax = atan2(lengthX, 1.0);
             double ay = atan2(lengthY * cos(ax), 1.0);
@@ -113,6 +118,7 @@ class Robot : public frc::TimedRobot {
             double ourDist = (98.25 - 28.00) / tan(0.139626 + ay);
             frc::SmartDashboard::PutNumber("DISTANCE", ourDist);
             turning = centerX;
+            printf("end of it\n");
 
         }
       outputStream.PutFrame(mat); 
@@ -121,12 +127,12 @@ class Robot : public frc::TimedRobot {
   }
   
 void TeleopInit()  {
- while (turning < 320){
+ /*while (turning < 320){
   m_left.Set(-.07);
   m_right.Set(-.07);
  }
  m_left.Set(0);
- m_right.Set(0);
+ m_right.Set(0); */
  
 }
 

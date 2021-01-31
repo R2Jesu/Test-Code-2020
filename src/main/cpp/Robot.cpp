@@ -163,14 +163,26 @@ void Robot::R2Jesu_ProcessDrive(double p_LimitFactor)
   double LinX = m_DrvStickL.GetX();
   double LinY = m_DrvStickL.GetY();
   double LinT = m_DrvStickL.GetTwist();
-  double RinX = m_DrvStickL.GetX();
-  double RinY = m_DrvStickL.GetY();
-  double RinT = m_DrvStickL.GetTwist();
+  double RinX = m_DrvStickR.GetX();
+  double RinY = m_DrvStickR.GetY();
+  double RinT = m_DrvStickR.GetTwist();
 
-  const double TwistLimtFactor = 0.4;
-  // Values goes -1.0 to 1.0.  So shift by 1.0 to make positive 
-  // and divide by 2.0 to make ranbe 0.0 to 1.0 
-  double PwrLimVal = (m_DrvStickL.GetThrottle()+1.0)/2.0;  
+  double VarTwistLim = 0.0;
+  double curDrvL;
+
+  frc::SmartDashboard::PutNumber("Lx", LinX);
+  frc::SmartDashboard::PutNumber("Ly", LinY);
+  frc::SmartDashboard::PutNumber("Lt", LinT);
+  frc::SmartDashboard::PutNumber("Rx", RinX);
+  frc::SmartDashboard::PutNumber("Ry", RinY);
+  frc::SmartDashboard::PutNumber("Rt", RinT);
+
+//  const double TwistLimtFactor = 0.4;
+  // Values goes -1.0 to 1.0.  So shift by -1.0 to make positive 
+  // and divide by 2.0 to make range 0.0 to 1.0 
+  double PwrLimFactor    = -(m_DrvStickL.GetThrottle()-1.0)/2.0;  // Left Joystick
+  double TwistLimtFactor = -(m_DrvStickR.GetThrottle()-1.0)/2.0;  // Right Joystick
+
 
   // Limit the drive motors for certain operations like color wheel
   if (m_DrvStickL.GetRawButton(1)) // Break or well power off
@@ -178,7 +190,7 @@ void Robot::R2Jesu_ProcessDrive(double p_LimitFactor)
     m_drvL = 0.0;
     m_drvR = 0.0;
   }
-  else if (m_DrvStickL.GetRawButton(6))
+  else if (m_DrvStickL.GetRawButton(12))
   {
     CurrDriveConfig = CurrDriveConfig + 1;
     if (CurrDriveConfig == LAST_ENTRY)
@@ -188,25 +200,42 @@ void Robot::R2Jesu_ProcessDrive(double p_LimitFactor)
   {   
     switch (CurrDriveConfig)
     {
-    case Std_Arcade:
-        m_drvL = -RinY * PwrLimVal;  // Speed
-        m_drvR =  RinX * PwrLimVal;  // Turn
+    case Std_Arcade: // Single Joystick with No Twist
+        m_drvL = -RinY * PwrLimFactor;  // Speed
+        m_drvR =  RinX * PwrLimFactor;  // Turn
         frc::SmartDashboard::PutString("DrvMode: ","Std Arcade       ");
         break;
-    case Std_Tank:
-        m_drvL = -LinY * PwrLimVal;  // Left Power
-        m_drvR = -RinY * PwrLimVal;  // Right Power
+    case Std_Tank: // Dual   Joystick with No Twist
+        m_drvL = -LinY * PwrLimFactor;  // Left Power
+        m_drvR = -RinY * PwrLimFactor;  // Right Power
        frc::SmartDashboard::PutString("DrvMode: ","Std Tank         ");
        break;
-    case Arcade_Twist:
-        m_drvL = -RinY * PwrLimVal;                          // Speed
-        m_drvR = (RinX+(RinT*TwistLimtFactor)) * PwrLimVal;  // Turn
+    case Arcade_Twist: // Single Joystick with    Twist and Turn
+        m_drvL = -RinY * PwrLimFactor;                            // Speed
+        m_drvR = (RinX * PwrLimFactor) + (RinT*TwistLimtFactor);  // Turn
         frc::SmartDashboard::PutString("DrvMode: ","Arcade with Twist");
         break;
-    case Dual_Arc_Twist:
-        m_drvL = -LinY * PwrLimVal;                   // Speed
-        m_drvR = (RinT*TwistLimtFactor) * PwrLimVal;  // Turn
+    case Dual_Arc_Twist: // Dual   Joystick with    Twist
+        m_drvL = -LinY * PwrLimFactor;                            // Speed
+        m_drvR = (RinX * PwrLimFactor) + (RinT*TwistLimtFactor);  // Turn
         frc::SmartDashboard::PutString("DrvMode: ","Dual Arcade Twist");
+        break;
+    case Arcade_Twist_Only: // Single Joystick with    Twist only
+        m_drvL = -RinY * PwrLimFactor;    // Speed
+        m_drvR = (RinT*TwistLimtFactor);  // Turn
+        frc::SmartDashboard::PutString("DrvMode: ","Arcade Twist Only");
+        break;
+    case ATO_LinTurn_Limit: // Single Joystick with    Twist only and limit the turn
+        m_drvL = -RinY * PwrLimFactor;             // Speed
+        curDrvL = -RinY;  // Grab the current speed request
+        if (fabs(curDrvL) < 0.5)   
+            VarTwistLim = 0.0;  // Don't do anything between 0..+/-0.5
+        else
+            VarTwistLim = curDrvL/2.0;  // Thake the power and scale it.  Keep the sign
+        // First remove some of the twist power based on FWD power and then
+        // scale the limit factor
+        m_drvR = limit(RinT-VarTwistLim)*TwistLimtFactor;  // Turn
+        frc::SmartDashboard::PutString("DrvMode: ","Arcade Twist Only");
         break;
     default:
         m_drvL = 0.0;
@@ -223,11 +252,13 @@ void Robot::R2Jesu_ProcessDrive(double p_LimitFactor)
        m_robotDrive.ArcadeDrive(m_drvL, m_drvR);  // Speed, Rotate
 
 #if R2JESU_TURNON_SMARTDASHBOARD
+  frc::SmartDashboard::PutNumber("CurrDrvCfg", CurrDriveConfig);
   frc::SmartDashboard::PutNumber("DrvL", m_drvL);
   frc::SmartDashboard::PutNumber("DrvR", m_drvR);
-  frc::SmartDashboard::PutNumber("DrvLimit", PwrLimVal);
-  frc::SmartDashboard::PutNumber("Twist", RinT);
+  frc::SmartDashboard::PutNumber("PwrLimit", PwrLimFactor);
+  frc::SmartDashboard::PutNumber("Twist", m_drvR);
   frc::SmartDashboard::PutNumber("TwistLimit", TwistLimtFactor);
+  frc::SmartDashboard::PutNumber("VarTwistLim", VarTwistLim);
 #endif
 }
 

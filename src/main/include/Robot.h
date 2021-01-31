@@ -42,6 +42,16 @@ class Robot : public frc::TimedRobot {
   //  Main Robot Drive
  void R2Jesu_ProcessDrive(double p_LimitFactor = 1.0);
 
+ double limit(double inVal, bool PosOnly = false)
+ {
+   double val = ((inVal>1.0)?1.0:((inVal<-1.0)?-1.0:inVal));
+   
+   if (PosOnly && (val < 0.0))
+       val = 0.0;
+
+   return(val);
+ }
+
   // Autonomous Test Code to control from Driver Station
   frc::SendableChooser<std::string> m_chooser;
   const std::string kAutoNameDefault = "Default";
@@ -53,18 +63,20 @@ class Robot : public frc::TimedRobot {
 
   // Drive Configurations
   typedef enum {
-    Std_Arcade     = 0, // Single Joystick with No Twist
-    Std_Tank       = 1, // Dual   Joystick with No Twist
-    Arcade_Twist   = 2, // Single Joystick with    Twist
-    Dual_Arc_Twist = 3, // Dual   Joystick with    Twist
-    LAST_ENTRY     = 4
+    Std_Arcade        = 0, // Single Joystick with No Twist
+    Std_Tank          = 1, // Dual   Joystick with No Twist
+    Arcade_Twist      = 2, // Single Joystick with    Twist and Turn
+    Dual_Arc_Twist    = 3, // Dual   Joystick with    Twist
+    Arcade_Twist_Only = 4, // Single Joystick with    Twist only
+    ATO_LinTurn_Limit = 5, // Single Joystick with    Twist only and limit the turn
+    LAST_ENTRY        = 6
   } DriveConfigType;
    
-  unsigned int CurrDriveConfig = Std_Arcade;
+  unsigned int CurrDriveConfig = ATO_LinTurn_Limit;
 
   // User Controllers
   frc::Joystick m_DrvStickL{0};
-  frc::Joystick m_DrvStickR{0};
+  frc::Joystick m_DrvStickR{1};
 
   // Robot drive system
   frc::PWMVictorSPX m_leftMotor{0};  // Second motor wired to Y PWM Cablec

@@ -68,16 +68,11 @@ void Robot::RobotInit()
   drvCamera.SetExposureAuto();
 //  drvCamera.SetFPS(15);
 
-// Vision Processing Camera - 0
-#if R2JESU_TURNON_VISION
-  std::thread visionThread(VisionThread);
-  visionThread.detach();
-#endif
-
 }
 
 void Robot::RobotPeriodic(){
-/*frc::SmartDashboard::PutNumber("IMU_Yaw", ahrs->GetYaw());
+
+/* frc::SmartDashboard::PutNumber("IMU_Yaw", ahrs->GetYaw());
 frc::SmartDashboard::PutNumber("IMU_Pitch", ahrs->GetPitch());
 frc::SmartDashboard::PutNumber("IMU_Roll", ahrs->GetRoll());
 frc::SmartDashboard::PutNumber("IMU_CompassHeading", ahrs->GetCompassHeading());
@@ -87,22 +82,12 @@ frc::SmartDashboard::PutNumber("Displacement_X", ahrs->GetDisplacementX());
 frc::SmartDashboard::PutNumber("Displacement_Y", ahrs->GetDisplacementY());
 frc::SmartDashboard::PutNumber("RawGyro_X", ahrs->GetRawGyroX());
 frc::SmartDashboard::PutNumber("RawGyro_Y", ahrs->GetRawGyroY());
-frc::SmartDashboard::PutNumber("RawGyro_Z", ahrs->GetRawGyroZ()); 
-*/
+frc::SmartDashboard::PutNumber("RawGyro_Z", ahrs->GetRawGyroZ()); */
 
-double targetOffsetAngle_Horizontal = table->GetNumber("tx",0.0);
-double targetOffsetAngle_Vertical = table->GetNumber("ty",0.0);
-double targetArea = table->GetNumber("ta",0.0);
-double targetSkew = table->GetNumber("ts",0.0); 
+#if R2JESU_TURNON_VISION
+   R2Jesu_Limelight();
+#endif
 
-frc::SmartDashboard::PutNumber("targetOffsetAngle_Horizontal", table->GetNumber("tx",0.0));
-frc::SmartDashboard::PutNumber("targetOffsetAngle_Vertical", table->GetNumber("ty",0.0));
-frc::SmartDashboard::PutNumber("targetArea", table->GetNumber("ta",0.0));
-frc::SmartDashboard::PutNumber("targetSkew", table->GetNumber("ts",0.0));
-
-//double ourDist = (((double)98.25 - (double)31) / (tan((double)15 + targetOffsetAngle_Vertical)));
-double ourDist = (((double)98.25 - (double)31) / (tan((double)15 + (double)8.8)));
-frc::SmartDashboard::PutNumber("distance", ourDist);
 }
 
 void Robot::TeleopInit()

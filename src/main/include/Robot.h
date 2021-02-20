@@ -63,7 +63,7 @@
 #define R2JESU_TURNON_SMARTDASHBOARD 1
 
 // Control robot config for either Fin (1) or Rex (0)
-#define R2JESU_FIN_CONFIG 1
+#define R2JESU_FIN_CONFIG
 
 #if R2JESU_FIN_CONFIG
 #define R2JESU_TURNON_PNEUMATICS 1
@@ -75,13 +75,15 @@
 #define R2JESU_TURNON_NAV 1
 #else
 #define R2JESU_TURNON_PNEUMATICS 0
-#define R2JESU_TURNON_ENCODER 0
+#define R2JESU_TURNON_ENCODER 1
 #define R2JESU_TURNON_INTAKE 0
 #define R2JESU_TURNON_SHOOTER 0
 #define R2JESU_TURNON_WINCH 0
-#define R2JESU_TURNON_VISION 1
+#define R2JESU_TURNON_VISION 0
 #define R2JESU_TURNON_NAV 1
 #endif
+
+#define PI 3.14159265
 
 class Robot : public frc::TimedRobot
 {
@@ -132,18 +134,8 @@ private:
   void R2Jesu_ProcessIntake(void);
 
   // Vision Processing
-  static void VisionThread(void);
-
-  // Limit either between -1.0..1.0 or 0.0..1.0
-   double limit(double inVal, bool PosOnly = false)
- {
-   double val = ((inVal>1.0)?1.0:((inVal<-1.0)?-1.0:inVal));
-   
-   if (PosOnly && (val < 0.0))
-       val = 0.0;
-
-   return(val);
- }
+  //static void VisionThread(void);
+  void R2Jesu_Limelight(void);
 
   // =================================================
   //  Class Objects
@@ -174,6 +166,18 @@ private:
   // objects to control the final motor control
   double m_drvL;
   double m_drvR;
+
+
+// Limit Joystick inputs
+double limit(double inVal, bool PosOnly = false)
+ {
+   double val = ((inVal>1.0)?1.0:((inVal<-1.0)?-1.0:inVal));
+   
+   if (PosOnly && (val < 0.0))
+       val = 0.0;
+
+   return(val);
+ }
 
   // Ball Intake Subsystem
   WPI_TalonSRX snowMotor{2};
@@ -229,5 +233,5 @@ private:
   // Debug & feedback
   frc::LiveWindow &m_lw = *frc::LiveWindow::GetInstance();
 
-  std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+  std::shared_ptr<NetworkTable> limelight_Table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 };

@@ -39,6 +39,7 @@
 // Pneumatics
 #include <frc/Compressor.h>
 #include <frc/Solenoid.h>
+#include <frc/DoubleSolenoid.h>
 
 // Camera
 #include <thread>
@@ -60,27 +61,45 @@
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableInstance.h"
 
-#define R2JESU_TURNON_SMARTDASHBOARD 1
+#define R2JESU_TURNON_SMARTDASHBOARD 0
+#define R2JESU_TURNON_SD_DRIVE       1
+
 
 // Control robot config for either Fin (1) or Rex (0)
-#define R2JESU_FIN_CONFIG
+#define R2JESU_TEST_CONFIG  0
+#define R2JESU_REX_CONFIG   1  // Original Robot
+#define R2JESU_FIN_CONFIG   2  // Current 2020-21
+#define R2JESU_REX_CONFIG   3  // Test Robot 
 
-#if R2JESU_FIN_CONFIG
-#define R2JESU_TURNON_PNEUMATICS 1
-#define R2JESU_TURNON_ENCODER 1
-#define R2JESU_TURNON_INTAKE 1
-#define R2JESU_TURNON_SHOOTER 1
-#define R2JESU_TURNON_WINCH 1
-#define R2JESU_TURNON_VISION 1
-#define R2JESU_TURNON_NAV 1
+#define CURRENT_R2JESU_CONFIG  R2JESU_FIN_CONFIG
+
+#if CURRENT_R2JESU_CONFIG == R2JESU_FIN_CONFIG
+#  define R2JESU_TURNON_PNEUMATICS 1
+#  define R2JESU_TURNON_ENCODER 1
+#  define R2JESU_TURNON_INTAKE 1
+#  define R2JESU_TURNON_SHOOTER 1
+#  define R2JESU_TURNON_WINCH 1
+#  define R2JESU_TURNON_VISION 1
+#  define R2JESU_TURNON_NAV 1
+#  define R2JESU_TURNON_COLOR 1
+#elif CURRENT_R2JESU_CONFIG == R2JESU_REX_CONFIG
+#  define R2JESU_TURNON_PNEUMATICS 0
+#  define R2JESU_TURNON_ENCODER 1
+#  define R2JESU_TURNON_INTAKE 0
+#  define R2JESU_TURNON_SHOOTER 0
+#  define R2JESU_TURNON_WINCH 0
+#  define R2JESU_TURNON_VISION 0
+#  define R2JESU_TURNON_NAV 1
+#  define R2JESU_TURNON_COLOR 0
 #else
-#define R2JESU_TURNON_PNEUMATICS 0
-#define R2JESU_TURNON_ENCODER 1
-#define R2JESU_TURNON_INTAKE 0
-#define R2JESU_TURNON_SHOOTER 0
-#define R2JESU_TURNON_WINCH 0
-#define R2JESU_TURNON_VISION 0
-#define R2JESU_TURNON_NAV 1
+#  define R2JESU_TURNON_PNEUMATICS 0
+#  define R2JESU_TURNON_ENCODER 0
+#  define R2JESU_TURNON_INTAKE 0
+#  define R2JESU_TURNON_SHOOTER 0
+#  define R2JESU_TURNON_WINCH 0
+#  define R2JESU_TURNON_VISION 0
+#  define R2JESU_TURNON_NAV 0
+#  define R2JESU_TURNON_COLOR 0
 #endif
 
 #define PI 3.14159265
@@ -109,7 +128,6 @@ public:
 
   void TestPeriodic();
 
-
 private:
   // =================================================
   //  Subsystem Control Functions
@@ -137,6 +155,11 @@ private:
   //static void VisionThread(void);
   void R2Jesu_Limelight(void);
 
+  //Autonomous Programs
+  void R2Jesu_Autonomous(void);
+  void R2Jesu_Slalom(void);
+  void R2Jesu_Barrel(void);
+
   // =================================================
   //  Class Objects
   // =================================================
@@ -144,7 +167,7 @@ private:
   // User Control
   frc::Joystick m_Drivestick{0};
   frc::Joystick m_OperatorStick{1};
-  frc::Joystick m_TestStick{5};
+  //frc::Joystick m_TestStick{5};
 
   // Robot drive system
   frc::PWMVictorSPX m_leftMotor{0};  // Second motor wired to Y PWM Cablec
@@ -158,8 +181,8 @@ private:
 
 // Encoders
 #if R2JESU_TURNON_ENCODER
-  frc::Encoder m_encL{7, 8, false, frc::Encoder::k4X};
-  frc::Encoder m_encR{4, 5, false, frc::Encoder::k4X};
+  frc::Encoder m_encL{7, 8, true, frc::Encoder::k4X};
+  frc::Encoder m_encR{4, 5, true, frc::Encoder::k4X};
 #endif
 
   // Because motor control cmds may come from other parts of the code use these
@@ -194,6 +217,7 @@ double limit(double inVal, bool PosOnly = false)
   frc::Compressor compressorObject;
   frc::Solenoid ballPopper{0};
   frc::Solenoid colorArm{1};
+  frc::DoubleSolenoid intakebar{2,3};
 #endif
 
 
@@ -232,6 +256,10 @@ double limit(double inVal, bool PosOnly = false)
 
   // Debug & feedback
   frc::LiveWindow &m_lw = *frc::LiveWindow::GetInstance();
+
+  // Test
+  int cnt_Per;
+  int cnt_Telop;
 
   std::shared_ptr<NetworkTable> limelight_Table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 };

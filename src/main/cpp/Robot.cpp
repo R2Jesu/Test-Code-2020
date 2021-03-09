@@ -11,6 +11,7 @@
 double Robot::turning;
 double Robot::currentDistance;
 
+
 void Robot::RobotInit()
 {
   // Init Timer
@@ -68,10 +69,17 @@ void Robot::RobotInit()
   drvCamera.SetExposureAuto();
 //  drvCamera.SetFPS(15);
 
+  cnt_Per = 0;
+
+
+
 }
 
 void Robot::RobotPeriodic(){
 
+#if R2JESU_TURNON_SMARTDASHBOARD
+  frc::SmartDashboard::PutNumber("cnt_Per:", cnt_Per++);
+ 
 /* frc::SmartDashboard::PutNumber("IMU_Yaw", ahrs->GetYaw());
 frc::SmartDashboard::PutNumber("IMU_Pitch", ahrs->GetPitch());
 frc::SmartDashboard::PutNumber("IMU_Roll", ahrs->GetRoll());
@@ -83,6 +91,7 @@ frc::SmartDashboard::PutNumber("Displacement_Y", ahrs->GetDisplacementY());
 frc::SmartDashboard::PutNumber("RawGyro_X", ahrs->GetRawGyroX());
 frc::SmartDashboard::PutNumber("RawGyro_Y", ahrs->GetRawGyroY());
 frc::SmartDashboard::PutNumber("RawGyro_Z", ahrs->GetRawGyroZ()); */
+#endif
 
 #if R2JESU_TURNON_VISION
    R2Jesu_Limelight();
@@ -93,18 +102,33 @@ frc::SmartDashboard::PutNumber("RawGyro_Z", ahrs->GetRawGyroZ()); */
 void Robot::TeleopInit()
 {
   gameColor = nun;
+#if R2JESU_TURNON_SHOOTER
   m_ShooterMotorLeft.Set(0.0);
   m_ShooterMotorRight.Set(0.0);
+#endif
+
+  cnt_Telop = 0;
 }
 
 void Robot::TeleopPeriodic()
 {
+#if R2JESU_TURNON_SMARTDASHBOARD
+  frc::SmartDashboard::PutNumber("cnt_Telop:", cnt_Telop++);
+  frc::SmartDashboard::PutNumber("DrvThrottle",  m_Drivestick.GetThrottle());
+  frc::SmartDashboard::PutNumber("DrvX",  m_Drivestick.GetX());
+  frc::SmartDashboard::PutNumber("DrvY",  m_Drivestick.GetY());
+  frc::SmartDashboard::PutNumber("DrvTwist",  m_Drivestick.GetTwist());
+#endif
 
   // Set the target color
+#ifdef R2JESU_TURNON_COLOR
   R2Jesu_CheckGameTargetColor();
+#endif
 
   // Process intake motor commands
+#ifdef R2JESU_TURNON_INTAKE
   R2Jesu_ProcessIntake();
+#endif
 
   // Process user control before drive control.
   R2Jesu_ProcessUserControl();
